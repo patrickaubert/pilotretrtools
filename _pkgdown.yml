@@ -1,0 +1,19 @@
+url: https://patrickaubert.github.io/pilotretrtools/
+lang: fr
+template:
+  bootstrap: 5
+
+reference:
+- title: Conventions
+  contents:
+  - valider_grille
+- title: Sources de données
+  contents:
+  - sources_donnees
+  - url_source
+  - telecharger_source
+  - vider_cache
+- title: Démographie
+  contents:
+  - starts_with("lire_")
+  - starts_with("prolonger_")
