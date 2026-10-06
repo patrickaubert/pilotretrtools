@@ -50,12 +50,24 @@ données publiées par l'Insee dans
 
 - [x] Squelette, conventions, registre des sources
 - [x] Lecture et prolongation des projections de population de l'Insee
-- [ ] Taux de retraités, d'activité et d'emploi ; nombre de retraités et de
-      cotisants
+- [x] Taux de retraités (COR, rétropolation EIR) et nombre de retraités
+- [x] Taux d'activité et d'emploi lissés par âge fin ; nombre d'actifs et
+      d'actifs occupés
 - [ ] Décomposition des évolutions du nombre de retraités et du rapport
       démographique
 - [ ] Modèle de cas type et règles d'équilibrage
 - [ ] Applications Shiny
+
+## Points ouverts
+
+- Raccordement des taux d'emploi observés (enquête Emploi) et projetés
+  (COR) : saut de niveau entre la dernière année observée et la première
+  année projetée (par exemple -1,8 point à 45 ans pour les femmes entre 2025
+  et 2026).
+- Lissage par âge fin des taux d'activité et d'emploi : hypothèse
+  approximative aux âges de la retraite, où les taux présentent des ruptures
+  aux âges légaux de départ ; à remplacer à terme par des taux calculés
+  directement par âge fin.
 
 ## Sources et licences
 

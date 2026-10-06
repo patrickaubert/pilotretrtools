@@ -4,9 +4,15 @@ template:
   bootstrap: 5
 
 reference:
-- title: Conventions
+- title: Conventions et outils
   contents:
   - valider_grille
+  - interpoler_generations
+  - lisser_par_age
+- title: Données
+  contents:
+  - projpop_central
+  - taux_retraites_eir
 - title: Sources de données
   contents:
   - sources_donnees
@@ -15,8 +21,22 @@ reference:
   - vider_cache
 - title: Démographie
   contents:
-  - starts_with("lire_")
-  - starts_with("prolonger_")
+  - lire_onglet_insee
+  - lire_projpop_insee
+  - lire_mortalite_insee
+  - prolonger_projpop
+- title: Retraités
+  contents:
+  - lire_taux_retraites_cor
+  - construire_taux_retraites
+  - ajouter_retraites
+- title: Activité et emploi
+  contents:
+  - lire_taux_emploi_eec
+  - lire_taux_activite_ppa
+  - lire_hypotheses_cor
+  - construire_taux_activite
+  - ajouter_actifs
 - title: Ruptures de champ géographique
   contents:
   - lire_pop_champs_insee

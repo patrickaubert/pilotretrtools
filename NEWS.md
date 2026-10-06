@@ -1,3 +1,18 @@
+# pilotretrtools (development version)
+
+# pilotretrtools 0.2.0
+
+* Taux de retraités : lecture des projections du COR (`lire_taux_retraites_cor()`),
+  table rétrospective construite à partir des EIR (`taux_retraites_eir`),
+  raccordement (`construire_taux_retraites()`) et nombres de retraités
+  (`ajouter_retraites()`).
+* Taux d'activité et d'emploi : lecture de l'enquête Emploi, de la PPA et des
+  hypothèses du COR selon l'hypothèse de chômage, lissage par âge fin
+  (`construire_taux_activite()`) et nombres d'actifs et d'actifs occupés
+  (`ajouter_actifs()`).
+* Outils génériques : `interpoler_generations()` et `lisser_par_age()`.
+* Vignette « Écarts avec les données publiées » complétée (retraités, actifs).
+
 # pilotretrtools 0.1.0
 
 # pilotretrtools 0.0.0.9000

@@ -1,7 +1,7 @@
 ---
-title: "Écarts avec les données publiées par l'Insee"
+title: "Écarts avec les données publiées par l'Insee et le COR"
 vignette: >
-  %\VignetteIndexEntry{Écarts avec les données publiées par l'Insee}
+  %\VignetteIndexEntry{Écarts avec les données publiées par l'Insee et le COR}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 knitr:
@@ -10,14 +10,17 @@ knitr:
     comment: "#>"
 ---
 
-Les tables de population du package reposent sur les fichiers diffusés par
-l'Insee pour ses projections de population : séries historiques depuis 1962,
-projections jusqu'en 2070, quotients de mortalité projetés jusqu'en 2125.
-Elles s'écartent néanmoins des valeurs publiées sur plusieurs points, soit
-pour reconstituer une information que l'Insee ne diffuse pas sous forme
-détaillée, soit pour prolonger les projections au-delà de leur horizon, soit
-pour rendre les séries longues homogènes. Cette vignette recense ces écarts,
-leur justification et leur ordre de grandeur.
+Les tables du package reposent sur des données publiées par l'Insee
+(projections de population, estimations de population, enquête Emploi,
+projections de population active), par le Conseil d'orientation des
+retraites (taux de retraités, hypothèses d'emploi et de chômage) et sur les
+échantillons interrégimes de retraités (EIR) de la DREES. Elles s'écartent
+néanmoins des valeurs publiées sur plusieurs points, soit pour reconstituer
+une information qui n'est pas diffusée sous forme détaillée, soit pour
+prolonger les séries au-delà de leur horizon, soit pour rendre les séries
+longues homogènes. Cette vignette recense ces écarts, leur justification et
+leur ordre de grandeur. Les premières sections portent sur la population,
+les suivantes sur les retraités, les actifs et les actifs occupés.
 
 ## Ce qui est repris tel quel
 
@@ -197,3 +200,106 @@ la correction peut légèrement surestimer les effectifs des générations
 concernées au début de la période. Elle convient à des illustrations sur
 longue période, non à une analyse fine des évolutions démographiques
 ultramarines.
+
+## Les taux de retraités
+
+Les nombres de retraités au 31 décembre sont obtenus en appliquant à la
+population au 31 décembre des taux de retraités par sexe et âge
+(`construire_taux_retraites()`, `ajouter_retraites()`) :
+
+- **à partir de 2000** : taux projetés par le COR (données complémentaires
+  du rapport annuel), qui portent sur les retraités résidant en France ;
+- **de 1976 à 1999** : taux rétrospectifs construits à partir des EIR
+  empilés (table `taux_retraites_eir`). Les générations absentes des EIR
+  sont obtenues par interpolation linéaire entre générations observées, à
+  sexe et âge donnés. Ces taux ne sont retenus qu'à partir de la première
+  année où ils couvrent tous les âges de 50 à 70 ans ; les années
+  antérieures restent sans taux ;
+- **par convention**, taux nul avant 50 ans et égal à 1 après 70 ans ;
+- **après la dernière année du COR** (2070), taux reconduits à chaque âge.
+
+Le nombre de retraités en 2025 est d'environ 16,8 millions. Il est un peu
+inférieur au nombre de retraités de droit direct souvent cité (environ
+17 millions), qui inclut les retraités résidant à l'étranger. Le raccord
+entre les taux EIR et les taux du COR, en 1999-2000, ne produit pas de saut
+visible.
+
+Le nombre de nouveaux retraités de l'année est approché par la hausse du
+taux de retraités d'une génération entre deux fins d'année. Il peut être
+légèrement négatif lorsque le taux de retraités baisse d'une génération à
+l'autre.
+
+## Les taux d'activité et d'emploi
+
+Les nombres d'actifs et d'actifs occupés au 31 décembre sont obtenus en
+appliquant à la population au 31 décembre des taux d'activité et d'emploi
+par sexe et âge fin (`construire_taux_activite()`, `ajouter_actifs()`).
+
+### Sources
+
+| Période | Taux d'emploi | Taux d'activité |
+|---------|---------------|-----------------|
+| 1975-2018 | enquête Emploi (séries longues) | projections de population active (PPA) de l'Insee, années observées |
+| 2019-2025 | enquête Emploi | déduit de l'emploi observé et du chômage du COR |
+| 2026-2090 | hypothèses du COR | déduit de l'emploi et du chômage du COR |
+| après 2090 | taux de 2090 reconduits | taux de 2090 reconduits |
+
+Le taux d'activité est déduit de l'emploi et du chômage par la relation :
+taux d'activité = taux d'emploi / (1 − taux de chômage).
+
+Les projections d'activité de la PPA 2022 sont antérieures à la réforme des
+retraites de 2023 ; elles ne sont donc utilisées que pour les années
+observées. Les hypothèses du COR reposent sur une projection de population
+active postérieure à la réforme. Le COR propose trois hypothèses de taux de
+chômage de long terme (5 %, 7 % et 10 %), qui se choisissent avec
+l'argument `chomage` de `lire_hypotheses_cor()`. Le taux d'activité déduit
+est identique dans les trois hypothèses : seul le partage entre actifs
+occupés et chômeurs change.
+
+### Passage à l'âge fin
+
+Les taux sont publiés par tranche d'âge quinquennale. Ils sont lissés par
+âge fin, pour chaque année et chaque sexe, avec `lisser_par_age()` : la
+méthode minimise les variations de la pente des taux selon l'âge, sous la
+contrainte de respecter la moyenne de chaque tranche, pondérée par la
+population. Les taux d'emploi et d'activité sont lissés séparément, puis le
+taux de chômage est déduit des deux. Plusieurs conventions s'ajoutent :
+
+- les tranches âgées de l'enquête Emploi (70-74 ans et 75 ans ou plus) sont
+  regroupées, en moyenne pondérée par la population, pour correspondre à la
+  tranche « 70 ans et plus » de la PPA et du COR ;
+- la tranche ouverte est lissée comme si elle s'arrêtait à 79 ans, et les
+  taux sont nuls avant 15 ans et à partir de 80 ans ;
+- aux âges où le taux d'activité est inférieur à 1 % ou le taux d'emploi
+  nul, actifs et actifs occupés sont confondus (chômage nul) : à ces âges,
+  les deux lissages indépendants donnent des taux de chômage sans
+  signification.
+
+Cette approche suppose des profils réguliers selon l'âge. Elle est
+approximative aux âges de départ à la retraite, où les taux d'activité et
+d'emploi présentent des ruptures aux âges légaux d'ouverture des droits et
+du taux plein : le lissage étale ces ruptures sur plusieurs âges. Les
+moyennes par tranche restent respectées.
+
+### Champ
+
+Les taux de l'enquête Emploi, de la PPA et du COR portent sur la population
+vivant en logement ordinaire, hors personnes vivant en collectivité
+(établissements pour personnes âgées, foyers, internats, casernes, etc.).
+Ils sont appliqués ici à la population totale. Les nombres d'actifs et
+d'actifs occupés sont donc légèrement surestimés, surtout aux âges élevés,
+où la part de personnes vivant en collectivité est la plus forte mais où
+les taux d'activité sont faibles. L'effet sur le rapport entre actifs
+occupés et retraités est limité.
+
+### Raccord entre données observées et projetées
+
+Le passage des taux d'emploi observés (enquête Emploi, 2025) aux taux
+projetés par le COR (2026) produit un saut de niveau : avec l'hypothèse de
+chômage de 7 %, le nombre d'actifs occupés baisse d'environ 630 000 entre
+2025 et 2026, et le rapport entre actifs occupés et retraités d'environ
+0,05, soit l'équivalent de plusieurs années de baisse tendancielle. Ce saut
+tient à l'écart entre les dernières données observées et le point de départ
+des hypothèses du COR ; il ne correspond pas à une évolution réelle. Son
+traitement est un point ouvert : les graphiques qui couvrent cette période
+doivent le signaler.

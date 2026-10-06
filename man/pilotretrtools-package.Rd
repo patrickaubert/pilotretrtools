@@ -33,7 +33,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Patrick Aubert \email{adresse@a-completer.fr}
+\strong{Maintainer}: Patrick Aubert \email{patrick.aubert@ipp.eu}
 
 }
 \keyword{internal}

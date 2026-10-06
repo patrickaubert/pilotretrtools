@@ -106,3 +106,119 @@ creer_fichier_pop_champs <- function(fichier = tempfile(fileext = ".xlsx"),
   openxlsx::saveWorkbook(classeur, fichier, overwrite = TRUE)
   fichier
 }
+
+# Onglet synthétique au format des données complémentaires du COR : trois
+# tableaux (ensemble, femmes, hommes), chacun précédé d'une ligne
+# « Sexe / Âge / année » et d'une ligne d'années ; colonne A vide comme dans
+# le fichier réel (`colonne_vide = FALSE` pour une variante sans).
+creer_fichier_taux_cor <- function(fichier = tempfile(fileext = ".xlsx"),
+                                   annees = 2000:2005, ages = 50:70,
+                                   colonne_vide = TRUE) {
+  classeur <- openxlsx::createWorkbook()
+  onglet <- "Tx_retrait\u00e9s_an"
+  openxlsx::addWorksheet(classeur, onglet)
+  depart <- if (colonne_vide) 2 else 1
+  openxlsx::writeData(classeur, onglet, "Taux de retrait\u00e9s par sexe et \u00e2ge",
+                      startRow = 1)
+  ligne <- 4
+  for (sexe in c("Ensemble", "Femmes", "Hommes")) {
+    openxlsx::writeData(classeur, onglet,
+                        t(c("Sexe", "\u00c2ge", "ann\u00e9e")),
+                        startRow = ligne, startCol = depart, colNames = FALSE)
+    openxlsx::writeData(classeur, onglet, t(annees), startRow = ligne + 1,
+                        startCol = depart + 2, colNames = FALSE)
+    taux <- outer((ages - 50) / 20, rep(1, length(annees)))
+    if (sexe == "Hommes") taux <- taux * 0.9
+    bloc <- data.frame(c(sexe, rep(NA, length(ages) - 1)), ages, taux)
+    openxlsx::writeData(classeur, onglet, bloc, startRow = ligne + 2,
+                        startCol = depart, colNames = FALSE)
+    ligne <- ligne + length(ages) + 3
+  }
+  openxlsx::saveWorkbook(classeur, fichier, overwrite = TRUE)
+  fichier
+}
+
+# Fichiers synthétiques reproduisant la mise en page des sources d'emploi et
+# d'activité : taux constants dans le temps, profil simple par tranche.
+tranches_test <- c(seq(15, 70, 5))
+emploi_test <- c(0.2, 0.6, 0.8, 0.85, 0.85, 0.85, 0.85, 0.8, 0.7, 0.3, 0.1, 0.02)
+
+creer_fichier_eec <- function(fichier = tempfile(fileext = ".xlsx"),
+                              annees = 2010:2016) {
+  classeur <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(classeur, "T207")
+  openxlsx::writeData(classeur, "T207", "T207 : Taux d'emploi", startRow = 1)
+  openxlsx::writeData(classeur, "T207", t(c(NA, "Annuel", annees)),
+                      startRow = 4, colNames = FALSE)
+  openxlsx::writeData(classeur, "T207", t(c("Sexe", "\u00c2ge")), startRow = 5,
+                      colNames = FALSE)
+  libelles <- c("Total", "De 15 \u00e0 64 ans",
+                paste0("De ", tranches_test, " \u00e0 ", tranches_test + 4, " ans"),
+                "75 ans ou plus")
+  valeurs <- c(50, 60, emploi_test * 100, 0.5)
+  ligne <- 7
+  for (sexe in c("Femme", "Homme", "Total")) {
+    bloc <- data.frame(sexe, libelles,
+                       matrix(valeurs, nrow = length(valeurs),
+                              ncol = length(annees)))
+    openxlsx::writeData(classeur, "T207", bloc, startRow = ligne,
+                        colNames = FALSE)
+    ligne <- ligne + length(libelles)
+  }
+  openxlsx::writeData(classeur, "T207", "Champ : France", startRow = ligne + 1)
+  openxlsx::saveWorkbook(classeur, fichier, overwrite = TRUE)
+  fichier
+}
+
+creer_fichier_ppa <- function(fichier = tempfile(fileext = ".xlsx"),
+                              annees = 2010:2016) {
+  classeur <- openxlsx::createWorkbook()
+  onglet <- "taux_activit\u00e9"
+  openxlsx::addWorksheet(classeur, onglet)
+  libelles <- c(paste0(tranches_test[-12], "-", tranches_test[-12] + 4, " ans"),
+                "70 ans et plus")
+  activite <- emploi_test / 0.9 * 100
+  for (k in 0:2) {
+    colonne <- 2 + k * length(libelles)
+    openxlsx::writeData(classeur, onglet, c("Ensemble", "Femmes", "Hommes")[k + 1],
+                        startRow = 1, startCol = colonne)
+    openxlsx::writeData(classeur, onglet, t(libelles), startRow = 2,
+                        startCol = colonne, colNames = FALSE)
+    openxlsx::writeData(classeur, onglet,
+                        matrix(activite, nrow = length(annees),
+                               ncol = length(libelles), byrow = TRUE),
+                        startRow = 3, startCol = colonne, colNames = FALSE)
+  }
+  openxlsx::writeData(classeur, onglet, "Ann\u00e9e", startRow = 2, startCol = 1)
+  openxlsx::writeData(classeur, onglet, annees, startRow = 3, startCol = 1,
+                      colNames = FALSE)
+  openxlsx::saveWorkbook(classeur, fichier, overwrite = TRUE)
+  fichier
+}
+
+# Hypothèses du COR : chômage de 10 % à tous les âges, emploi égal à
+# `emploi_test` ; la dernière année est mal étiquetée, comme dans le fichier
+# de 2025.
+creer_fichier_hypotheses_cor <- function(fichier = tempfile(fileext = ".xlsx"),
+                                         annees = 2014:2020) {
+  classeur <- openxlsx::createWorkbook()
+  codes <- c(paste0("F", tranches_test, "S"), paste0("H", tranches_test, "S"))
+  etiquettes <- annees
+  etiquettes[length(etiquettes)] <- annees[1]
+  for (onglet in c("Emploi_7%", "Ch\u00f4mage_7%")) {
+    openxlsx::addWorksheet(classeur, onglet)
+    openxlsx::writeData(classeur, onglet, paste("Taux -", onglet), startRow = 1)
+    openxlsx::writeData(classeur, onglet,
+                        t(c("Ann\u00e9e", "Total", "Total_F", "Total_H", codes)),
+                        startRow = 4, colNames = FALSE)
+    valeurs <- if (grepl("Emploi", onglet)) rep(emploi_test, 2) * 100 else
+      rep(10, length(codes))
+    openxlsx::writeData(classeur, onglet,
+                        cbind(etiquettes, 50, 50, 50,
+                              matrix(valeurs, nrow = length(annees),
+                                     ncol = length(codes), byrow = TRUE)),
+                        startRow = 5, colNames = FALSE)
+  }
+  openxlsx::saveWorkbook(classeur, fichier, overwrite = TRUE)
+  fichier
+}
