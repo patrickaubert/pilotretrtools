@@ -50,9 +50,14 @@ Une liste de classe `projpop_insee` contenant :
 ## Details
 
 Les quotients de mortalité sont convertis en probabilités (l'Insee les
-diffuse pour 100 000). Lorsque le fichier de mortalité prolongée est
-fourni, ses quotients remplacent ceux du fichier de scénario pour les
-années qu'il couvre.
+diffuse pour 100 000). Les valeurs des groupes ouverts (« 105+ », ou «
+100 » les années où le détail s'arrête à 100 ans) sont remplacées par
+`NA` (voir
+[`lire_onglet_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_onglet_insee.md))
+; elles sont recalculées par
+[`prolonger_projpop()`](https://patrickaubert.github.io/pilotretrtools/reference/prolonger_projpop.md).
+Lorsque le fichier de mortalité prolongée est fourni, ses quotients
+remplacent ceux du fichier de scénario pour les années qu'il couvre.
 
 ## Examples
 

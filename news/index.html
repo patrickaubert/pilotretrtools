@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pilotretrtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,10 +16,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/conventions.html">Conventions et organisation du package</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -37,11 +34,34 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="pilotretrtools-development-version">pilotretrtools (development version)<a class="anchor" aria-label="anchor" href="#pilotretrtools-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="pilotretrtools-020">pilotretrtools 0.2.0<a class="anchor" aria-label="anchor" href="#pilotretrtools-020"></a></h2>
+<ul><li>Taux de retraités : lecture des projections du COR (<code><a href="../reference/lire_taux_retraites_cor.html">lire_taux_retraites_cor()</a></code>), table rétrospective construite à partir des EIR (<code>taux_retraites_eir</code>), raccordement (<code><a href="../reference/construire_taux_retraites.html">construire_taux_retraites()</a></code>) et nombres de retraités (<code><a href="../reference/ajouter_retraites.html">ajouter_retraites()</a></code>).</li>
+<li>Taux d’activité et d’emploi : lecture de l’enquête Emploi, de la PPA et des hypothèses du COR selon l’hypothèse de chômage, lissage par âge fin (<code><a href="../reference/construire_taux_activite.html">construire_taux_activite()</a></code>) et nombres d’actifs et d’actifs occupés (<code><a href="../reference/ajouter_actifs.html">ajouter_actifs()</a></code>).</li>
+<li>Outils génériques : <code><a href="../reference/interpoler_generations.html">interpoler_generations()</a></code> et <code><a href="../reference/lisser_par_age.html">lisser_par_age()</a></code>.</li>
+<li>Vignette « Écarts avec les données publiées » complétée (retraités, actifs).</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.0" id="pilotretrtools-010">pilotretrtools 0.1.0<a class="anchor" aria-label="anchor" href="#pilotretrtools-010"></a></h2>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.0.9000" id="pilotretrtools-0009000">pilotretrtools 0.0.0.9000<a class="anchor" aria-label="anchor" href="#pilotretrtools-0009000"></a></h2>
 <ul><li>Squelette du package : conventions de la grille génération × âge × année (<code><a href="../reference/valider_grille.html">valider_grille()</a></code>), registre des sources (<code><a href="../reference/sources_donnees.html">sources_donnees()</a></code>, <code><a href="../reference/url_source.html">url_source()</a></code>), téléchargement avec cache (<code><a href="../reference/telecharger_source.html">telecharger_source()</a></code>).</li>
 <li>Module démographique, première brique : lecture d’un scénario des projections de population de l’Insee (<code><a href="../reference/lire_projpop_insee.html">lire_projpop_insee()</a></code>, <code><a href="../reference/lire_mortalite_insee.html">lire_mortalite_insee()</a></code>, <code><a href="../reference/lire_onglet_insee.html">lire_onglet_insee()</a></code>) et prolongation au-delà de 2070 (<code><a href="../reference/prolonger_projpop.html">prolonger_projpop()</a></code>).</li>
+<li>Les groupes ouverts des fichiers de l’Insee (« 105+ », ou « 100 » les années où le détail s’arrête à 100 ans) sont écartés à la lecture et reconstitués par génération lors de la prolongation ; la population ne peut plus devenir négative.</li>
+<li>
+<code><a href="../reference/prolonger_projpop.html">prolonger_projpop()</a></code> : nouvelle option <code>prolongation_mortalite</code> pour la mortalité au-delà de la dernière année disponible (<code>"constante"</code> par défaut, ou <code>"tendance"</code>, avec <code>duree_tendance</code>).</li>
+<li>Les âges non détaillés signalés par des zéros au-delà du groupe ouvert (ligne « 100 » avant 1999) sont désormais repérés ; les décès calculés ne peuvent plus être négatifs.</li>
+<li>
+<code><a href="../reference/prolonger_projpop.html">prolonger_projpop()</a></code> renvoie désormais un tibble (paramètres, sources et coefficients de champ en attributs), avec les naissances par sexe en colonne sur les lignes d’âge 0.</li>
+<li>Ruptures de champ géographique (1995, 2014) : colonne <code>coef_champ</code>, <code><a href="../reference/estimer_coef_champ.html">estimer_coef_champ()</a></code> et <code><a href="../reference/corriger_champ.html">corriger_champ()</a></code>.</li>
+<li>Nouvelle vignette « Écarts avec les données publiées par l’Insee ».</li>
+<li>Coefficients de champ calculés à partir des populations publiées par l’Insee dans les deux champs (<code><a href="../reference/lire_pop_champs_insee.html">lire_pop_champs_insee()</a></code>, <code><a href="../reference/calculer_coef_champ.html">calculer_coef_champ()</a></code>, argument <code>coef_champ</code> de <code><a href="../reference/prolonger_projpop.html">prolonger_projpop()</a></code>) ; l’estimation indirecte devient une méthode de repli. Coefficients bornés à 1.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

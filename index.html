@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">pilotretrtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,12 +32,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/conventions.html">Conventions et organisation du package</a></li>
-  </ul>
-</li>
+<li class="nav-item"><a class="nav-link" href="articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -82,8 +77,11 @@
 <span></span>
 <span><span class="co"># lecture et prolongation du scénario central de l'Insee</span></span>
 <span><span class="va">projpop</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lire_projpop_insee.html">lire_projpop_insee</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">projpop_prolongee</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prolonger_projpop.html">prolonger_projpop</a></span><span class="op">(</span><span class="va">projpop</span>, horizon <span class="op">=</span> <span class="fl">2180</span><span class="op">)</span></span></code></pre></div>
-<p>Les conventions communes à toutes les fonctions sont décrites dans <code><a href="articles/conventions.html">vignette("conventions", package = "pilotretrtools")</a></code>.</p>
+<span><span class="va">projpop_prolongee</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prolonger_projpop.html">prolonger_projpop</a></span><span class="op">(</span><span class="va">projpop</span>, horizon <span class="op">=</span> <span class="fl">2180</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># séries homogènes en France entière (ruptures de champ de 1995 et 2014)</span></span>
+<span><span class="va">projpop_homogene</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/corriger_champ.html">corriger_champ</a></span><span class="op">(</span><span class="va">projpop_prolongee</span><span class="op">)</span></span></code></pre></div>
+<p>Les conventions communes à toutes les fonctions sont décrites dans <code><a href="articles/conventions.html">vignette("conventions", package = "pilotretrtools")</a></code>, et les écarts avec les données publiées par l’Insee dans <code><a href="articles/ecarts-insee.html">vignette("ecarts-insee", package = "pilotretrtools")</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="état-davancement">État d’avancement<a class="anchor" aria-label="anchor" href="#%C3%A9tat-davancement"></a>
@@ -91,10 +89,19 @@
 <ul class="task-list">
 <li><label><input type="checkbox" checked>Squelette, conventions, registre des sources</label></li>
 <li><label><input type="checkbox" checked>Lecture et prolongation des projections de population de l’Insee</label></li>
-<li><label><input type="checkbox">Taux de retraités, d’activité et d’emploi ; nombre de retraités et de cotisants</label></li>
+<li><label><input type="checkbox" checked>Taux de retraités (COR, rétropolation EIR) et nombre de retraités</label></li>
+<li><label><input type="checkbox" checked>Taux d’activité et d’emploi lissés par âge fin ; nombre d’actifs et d’actifs occupés</label></li>
 <li><label><input type="checkbox">Décomposition des évolutions du nombre de retraités et du rapport démographique</label></li>
 <li><label><input type="checkbox">Modèle de cas type et règles d’équilibrage</label></li>
 <li><label><input type="checkbox">Applications Shiny</label></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="points-ouverts">Points ouverts<a class="anchor" aria-label="anchor" href="#points-ouverts"></a>
+</h2>
+<ul>
+<li>Raccordement des taux d’emploi observés (enquête Emploi) et projetés (COR) : saut de niveau entre la dernière année observée et la première année projetée (par exemple -1,8 point à 45 ans pour les femmes entre 2025 et 2026).</li>
+<li>Lissage par âge fin des taux d’activité et d’emploi : hypothèse approximative aux âges de la retraite, où les taux présentent des ruptures aux âges légaux de départ ; à remplacer à terme par des taux calculés directement par âge fin.</li>
 </ul>
 </div>
 <div class="section level2">

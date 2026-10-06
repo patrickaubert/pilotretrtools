@@ -1,0 +1,323 @@
+# Écarts avec les données publiées par l’Insee et le COR
+
+Les tables du package reposent sur des données publiées par l’Insee
+(projections de population, estimations de population, enquête Emploi,
+projections de population active), par le Conseil d’orientation des
+retraites (taux de retraités, hypothèses d’emploi et de chômage) et sur
+les échantillons interrégimes de retraités (EIR) de la DREES. Elles
+s’écartent néanmoins des valeurs publiées sur plusieurs points, soit
+pour reconstituer une information qui n’est pas diffusée sous forme
+détaillée, soit pour prolonger les séries au-delà de leur horizon, soit
+pour rendre les séries longues homogènes. Cette vignette recense ces
+écarts, leur justification et leur ordre de grandeur. Les premières
+sections portent sur la population, les suivantes sur les retraités, les
+actifs et les actifs occupés.
+
+## Ce qui est repris tel quel
+
+Partout où l’Insee publie une valeur détaillée par sexe, âge et année,
+elle est conservée sans modification : populations au 1er janvier,
+décès, quotients de mortalité, soldes migratoires et ajustements
+projetés, naissances et taux de fécondité. La colonne `prolonge` des
+tables permet de distinguer ces valeurs (`FALSE`) des effectifs calculés
+par le package (`TRUE`).
+
+Les totaux par année sont donc identiques à ceux de l’Insee sur la
+période de projection, aux arrondis près. Pour le scénario central du
+millésime 2026, la population au 1er janvier 2070 est de 65,9 millions
+dans les deux cas.
+
+## Les grands âges : groupes ouverts reconstitués
+
+Les fichiers de l’Insee regroupent les âges élevés dans un **groupe
+ouvert**, dont l’effectif est la somme de tous les âges supérieurs : «
+105+ » depuis 1999, ligne « 100 » auparavant (les lignes d’âges
+supérieurs valant alors 0). Utilisé tel quel, cet effectif agrégé crée
+un pic artificiel au dernier âge et fausse tout suivi par génération.
+
+Ces valeurs agrégées sont donc écartées à la lecture
+([`lire_onglet_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_onglet_insee.md)),
+puis les effectifs aux âges correspondants sont reconstitués par
+génération lors de la prolongation
+([`prolonger_projpop()`](https://patrickaubert.github.io/pilotretrtools/reference/prolonger_projpop.md)),
+à partir de l’effectif de la génération l’année précédente et des
+quotients de mortalité :
+
+- au-delà du dernier âge dont le quotient est détaillé (99 ou 104 ans
+  selon les années), le quotient de ce dernier âge est reconduit ;
+- le solde migratoire et l’ajustement sont supposés nuls à ces âges ;
+- en 1962, première année des séries, les âges non détaillés n’ont pas
+  d’effectif de départ : les générations correspondantes, nées avant
+  1862, sont considérées comme éteintes.
+
+L’écart avec les données publiées se limite aux âges couverts par les
+groupes ouverts. Il est faible : en 1998, la somme des effectifs
+reconstitués à 101 ans et plus est très proche de l’agrégat publié par
+l’Insee (environ 7 250 personnes contre 7 259) ; en 1997, elle le
+dépasse d’environ 5 %. Les totaux annuels de la période historique
+diffèrent de ce fait de quelques centaines de personnes (+612 en 1990).
+
+## Les composantes non publiées pour le passé
+
+**Solde migratoire.** L’Insee ne publie pas de solde migratoire par âge
+pour les années observées. Il est calculé comme résidu de l’équation
+comptable :
+
+``` math
+M(t, a) = P_{31/12}(t, a) - P_{01/01}(t, a) + D(t, a) - J(t, a)
+```
+
+où la population au 31 décembre est celle de la même génération au 1er
+janvier suivant. Ce résidu absorbe tous les écarts de la comptabilité
+démographique, y compris les ruptures de champ décrites plus bas.
+
+**Naissances par sexe.** Les naissances publiées, tous sexes confondus,
+sont réparties entre filles et garçons selon un rapport de masculinité
+de 105 garçons pour 100 filles (`rapport_masculinite = 1.05`). La
+répartition par sexe des naissances historiques est donc approchée.
+
+## Bornes de cohérence
+
+Les décès calculés sont bornés à zéro par le bas et par l’effectif
+présent par le haut, et la population ne peut pas devenir négative : une
+génération entièrement décédée reste à zéro. Ces bornes n’interviennent
+que dans des cas extrêmes (très petits effectifs aux grands âges
+combinés à un solde migratoire ou un ajustement négatif).
+
+## Au-delà des horizons de l’Insee
+
+Pour calculer des indicateurs sur l’ensemble du cycle de vie des
+générations, les projections sont prolongées jusqu’en 2180 (paramètre
+`horizon`) par la méthode des composantes :
+
+- **fécondité, solde migratoire et ajustement** : à chaque âge, la
+  dernière valeur projetée par l’Insee (2070) est reconduite ;
+- **naissances** : celles publiées par l’Insee lorsqu’elles existent,
+  puis calculées à partir de la population féminine et des taux de
+  fécondité ;
+- **mortalité** : les quotients de 2125, dernière année du fichier de
+  mortalité de l’Insee, sont soit reconduits à l’identique (option par
+  défaut, `prolongation_mortalite = "constante"`), soit prolongés selon
+  leur évolution annuelle moyenne des vingt dernières années
+  (`prolongation_mortalite = "tendance"`).
+
+L’option par défaut arrête net les gains d’espérance de vie après 2125.
+Cela importe peu pour les générations actuelles, mais pèse sur les
+indicateurs des générations nées après 2025 environ, qui atteignent les
+âges de forte mortalité après 2125. Ces hypothèses sont conventionnelles
+: elles servent à illustrer des mécanismes, non à projeter la population
+du XXII^(e) siècle.
+
+## Les ruptures de champ géographique
+
+Le champ des séries historiques de l’Insee change deux fois :
+
+| Période     | Champ                 |
+|-------------|-----------------------|
+| 1962-1994   | France métropolitaine |
+| 1995-2013   | France hors Mayotte   |
+| depuis 2014 | France entière        |
+
+Ces ruptures correspondent à la réalité des données, mais elles créent
+des sauts dans les séries longues (environ +1,6 million d’habitants en
+1995, +0,2 million en 2014) qui peuvent brouiller une lecture
+pédagogique des évolutions.
+
+### Calcul des coefficients de correction
+
+Pour chaque rupture, un coefficient par génération et par sexe ramène
+les effectifs de l’ancien champ au nouveau. Il est calculé par
+[`calculer_coef_champ()`](https://patrickaubert.github.io/pilotretrtools/reference/calculer_coef_champ.md)
+à partir du tableau POP3 de l’Insee (population au 1er janvier par sexe
+et âge détaillé), lu par
+[`lire_pop_champs_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_pop_champs_insee.md),
+qui donne chaque année la population de la France métropolitaine et
+celle du champ « France » de l’époque :
+
+- **1995** (ajout des DROM hors Mayotte) : rapport, au 1er janvier 1995,
+  de la population France hors Mayotte à celle de la France
+  métropolitaine. Le calcul est exact. Les coefficients vont d’environ
+  1,01 pour les générations les plus âgées à 1,04 pour les plus jeunes ;
+  leur moyenne pondérée par les effectifs est de 1,03.
+
+- **2014** (ajout de Mayotte) : l’Insee ne publie pas l’année 2014 dans
+  le champ France hors Mayotte. Le coefficient est approché, pour chaque
+  génération, par
+
+  ``` math
+  c_{2014} = \left[P_{\text{France}}(2014) / P_{\text{Métropole}}(2014)\right] / \left[P_{\text{France hors Mayotte}}(2013) / P_{\text{Métropole}}(2013)\right]
+  ```
+
+  ce qui suppose que le poids des DROM hors Mayotte par rapport à la
+  métropole ne varie pas d’une année sur l’autre au sein d’une
+  génération. Les coefficients sont proches de 1 aux âges élevés et
+  atteignent environ 1,01 pour les générations nées après 2000, la
+  population de Mayotte étant très jeune. La génération née en 2013,
+  absente au 1er janvier 2013, reçoit le coefficient de la génération
+  précédente.
+
+Les coefficients sont bornés à 1, puisque l’ajout d’un territoire ne
+peut pas réduire l’effectif d’une génération ; seules quelques
+générations âgées présentaient en 2014 un rapport inférieur à 1,
+d’environ 0,01 %. Les générations non couvertes par le tableau (groupes
+ouverts « 100 ou plus » et « 105 ou plus », générations plus anciennes)
+reçoivent le coefficient de la génération la plus proche.
+
+**Méthode de repli.** Lorsque ces publications ne sont pas disponibles
+(par exemple pour une autre rupture),
+[`estimer_coef_champ()`](https://patrickaubert.github.io/pilotretrtools/reference/estimer_coef_champ.md)
+estime les coefficients de manière indirecte, en comparant pour chaque
+génération la population au 1er janvier suivant à la population de
+l’année diminuée des décès, et en neutralisant les migrations par les
+années voisines. Cette méthode convient pour l’ajout des DROM, mais elle
+est trop imprécise pour Mayotte, dont l’effet est du même ordre que les
+fluctuations annuelles des migrations : elle produisait des coefficients
+nettement inférieurs à 1 pour certaines générations.
+
+### Utilisation
+
+Les tables conservent les effectifs dans le champ publié pour chaque
+année, avec une colonne `coef_champ` : produit des coefficients des deux
+ruptures avant 1995, coefficient de Mayotte seul de 1995 à 2013, 1
+ensuite. Le détail des coefficients est disponible dans l’attribut
+`coef_champ` de la table, et la méthode utilisée dans
+`attr(projpop_central, "parametres")$methode_champ`.
+
+Pour obtenir des séries homogènes dans le champ France entière :
+
+``` r
+
+library(pilotretrtools)
+projpop_homogene <- corriger_champ(projpop_central)
+```
+
+[`corriger_champ()`](https://patrickaubert.github.io/pilotretrtools/reference/corriger_champ.md)
+multiplie les populations, naissances, décès et ajustements par
+`coef_champ`, puis recalcule la population au 31 décembre et le solde
+migratoire résiduel des années antérieures à 2014, qui n’enregistrent
+plus les sauts de champ. Les quotients de mortalité et les taux de
+fécondité ne sont pas modifiés.
+
+### Limites
+
+La correction suppose que la part des territoires ajoutés dans chaque
+génération était constante avant la rupture. Elle ignore donc les
+migrations passées entre ces territoires et la métropole, importantes
+dans les années 1960 à 1980 : une partie des personnes nées dans les
+DROM et installées en métropole est déjà comptée dans les séries
+métropolitaines, et la correction peut légèrement surestimer les
+effectifs des générations concernées au début de la période. Elle
+convient à des illustrations sur longue période, non à une analyse fine
+des évolutions démographiques ultramarines.
+
+## Les taux de retraités
+
+Les nombres de retraités au 31 décembre sont obtenus en appliquant à la
+population au 31 décembre des taux de retraités par sexe et âge
+([`construire_taux_retraites()`](https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_retraites.md),
+[`ajouter_retraites()`](https://patrickaubert.github.io/pilotretrtools/reference/ajouter_retraites.md))
+:
+
+- **à partir de 2000** : taux projetés par le COR (données
+  complémentaires du rapport annuel), qui portent sur les retraités
+  résidant en France ;
+- **de 1976 à 1999** : taux rétrospectifs construits à partir des EIR
+  empilés (table `taux_retraites_eir`). Les générations absentes des EIR
+  sont obtenues par interpolation linéaire entre générations observées,
+  à sexe et âge donnés. Ces taux ne sont retenus qu’à partir de la
+  première année où ils couvrent tous les âges de 50 à 70 ans ; les
+  années antérieures restent sans taux ;
+- **par convention**, taux nul avant 50 ans et égal à 1 après 70 ans ;
+- **après la dernière année du COR** (2070), taux reconduits à chaque
+  âge.
+
+Le nombre de retraités en 2025 est d’environ 16,8 millions. Il est un
+peu inférieur au nombre de retraités de droit direct souvent cité
+(environ 17 millions), qui inclut les retraités résidant à l’étranger.
+Le raccord entre les taux EIR et les taux du COR, en 1999-2000, ne
+produit pas de saut visible.
+
+Le nombre de nouveaux retraités de l’année est approché par la hausse du
+taux de retraités d’une génération entre deux fins d’année. Il peut être
+légèrement négatif lorsque le taux de retraités baisse d’une génération
+à l’autre.
+
+## Les taux d’activité et d’emploi
+
+Les nombres d’actifs et d’actifs occupés au 31 décembre sont obtenus en
+appliquant à la population au 31 décembre des taux d’activité et
+d’emploi par sexe et âge fin
+([`construire_taux_activite()`](https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_activite.md),
+[`ajouter_actifs()`](https://patrickaubert.github.io/pilotretrtools/reference/ajouter_actifs.md)).
+
+### Sources
+
+| Période | Taux d’emploi | Taux d’activité |
+|----|----|----|
+| 1975-2018 | enquête Emploi (séries longues) | projections de population active (PPA) de l’Insee, années observées |
+| 2019-2025 | enquête Emploi | déduit de l’emploi observé et du chômage du COR |
+| 2026-2090 | hypothèses du COR | déduit de l’emploi et du chômage du COR |
+| après 2090 | taux de 2090 reconduits | taux de 2090 reconduits |
+
+Le taux d’activité est déduit de l’emploi et du chômage par la relation
+: taux d’activité = taux d’emploi / (1 − taux de chômage).
+
+Les projections d’activité de la PPA 2022 sont antérieures à la réforme
+des retraites de 2023 ; elles ne sont donc utilisées que pour les années
+observées. Les hypothèses du COR reposent sur une projection de
+population active postérieure à la réforme. Le COR propose trois
+hypothèses de taux de chômage de long terme (5 %, 7 % et 10 %), qui se
+choisissent avec l’argument `chomage` de
+[`lire_hypotheses_cor()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_hypotheses_cor.md).
+Le taux d’activité déduit est identique dans les trois hypothèses : seul
+le partage entre actifs occupés et chômeurs change.
+
+### Passage à l’âge fin
+
+Les taux sont publiés par tranche d’âge quinquennale. Ils sont lissés
+par âge fin, pour chaque année et chaque sexe, avec
+[`lisser_par_age()`](https://patrickaubert.github.io/pilotretrtools/reference/lisser_par_age.md)
+: la méthode minimise les variations de la pente des taux selon l’âge,
+sous la contrainte de respecter la moyenne de chaque tranche, pondérée
+par la population. Les taux d’emploi et d’activité sont lissés
+séparément, puis le taux de chômage est déduit des deux. Plusieurs
+conventions s’ajoutent :
+
+- les tranches âgées de l’enquête Emploi (70-74 ans et 75 ans ou plus)
+  sont regroupées, en moyenne pondérée par la population, pour
+  correspondre à la tranche « 70 ans et plus » de la PPA et du COR ;
+- la tranche ouverte est lissée comme si elle s’arrêtait à 79 ans, et
+  les taux sont nuls avant 15 ans et à partir de 80 ans ;
+- aux âges où le taux d’activité est inférieur à 1 % ou le taux d’emploi
+  nul, actifs et actifs occupés sont confondus (chômage nul) : à ces
+  âges, les deux lissages indépendants donnent des taux de chômage sans
+  signification.
+
+Cette approche suppose des profils réguliers selon l’âge. Elle est
+approximative aux âges de départ à la retraite, où les taux d’activité
+et d’emploi présentent des ruptures aux âges légaux d’ouverture des
+droits et du taux plein : le lissage étale ces ruptures sur plusieurs
+âges. Les moyennes par tranche restent respectées.
+
+### Champ
+
+Les taux de l’enquête Emploi, de la PPA et du COR portent sur la
+population vivant en logement ordinaire, hors personnes vivant en
+collectivité (établissements pour personnes âgées, foyers, internats,
+casernes, etc.). Ils sont appliqués ici à la population totale. Les
+nombres d’actifs et d’actifs occupés sont donc légèrement surestimés,
+surtout aux âges élevés, où la part de personnes vivant en collectivité
+est la plus forte mais où les taux d’activité sont faibles. L’effet sur
+le rapport entre actifs occupés et retraités est limité.
+
+### Raccord entre données observées et projetées
+
+Le passage des taux d’emploi observés (enquête Emploi, 2025) aux taux
+projetés par le COR (2026) produit un saut de niveau : avec l’hypothèse
+de chômage de 7 %, le nombre d’actifs occupés baisse d’environ 630 000
+entre 2025 et 2026, et le rapport entre actifs occupés et retraités
+d’environ 0,05, soit l’équivalent de plusieurs années de baisse
+tendancielle. Ce saut tient à l’écart entre les dernières données
+observées et le point de départ des hypothèses du COR ; il ne correspond
+pas à une évolution réelle. Son traitement est un point ouvert : les
+graphiques qui couvrent cette période doivent le signaler.

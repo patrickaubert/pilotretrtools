@@ -13,7 +13,7 @@ organisme publie une version actualisée de ses projections."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">pilotretrtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,10 +22,7 @@ organisme publie une version actualisée de ses projections."></head><body>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/conventions.html">Conventions et organisation du package</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -72,16 +69,17 @@ organisme publie une version actualisée de ses projections.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">sources_donnees</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   objet       organisme publication       millesime scenario onglets url   note </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> projpop     Insee     Projections de p…      <span style="text-decoration: underline;">2</span>026 central  popula… http… <span style="color: #949494;">"</span>Les…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> projmort    Insee     Quotients de mor…      <span style="text-decoration: underline;">2</span>026 tous     &lt;hypot… http… <span style="color: #949494;">"</span>Un …</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> txretr      COR       Rapport annuel d…      <span style="text-decoration: underline;">2</span>025 central  Tx_ret… http… <span style="color: #949494;">"</span>À a…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> txact       Insee     Projections de p…      <span style="text-decoration: underline;">2</span>022 central  taux_a… http… <span style="color: #949494;">""</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> txempl_obs  Insee     Activité, emploi…      <span style="text-decoration: underline;">2</span>026 tous     EEC_T2… http… <span style="color: #949494;">"</span>Sér…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> txempl_proj COR       Hypothèses du CO…      <span style="text-decoration: underline;">2</span>025 central  Emploi… http… <span style="color: #949494;">"</span>Ong…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> txact       Insee     Projections de p…      <span style="text-decoration: underline;">2</span>022 central  taux_a… http… <span style="color: #949494;">"</span>Tau…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> txempl_obs  Insee     Activité, emploi…      <span style="text-decoration: underline;">2</span>026 tous     T207    http… <span style="color: #949494;">"</span>Sér…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> txempl_proj COR       Hypothèses du CO…      <span style="text-decoration: underline;">2</span>025 tous     Emploi… http… <span style="color: #949494;">"</span>Une…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> eco         COR       Hypothèses de sa…      <span style="text-decoration: underline;">2</span>025 tous     SMPT, … http… <span style="color: #949494;">""</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> popchamp    Insee     Population au 1e…      <span style="text-decoration: underline;">2</span>026 tous     un ong… http… <span style="color: #949494;">"</span>Ser…</span>
 <span class="r-in"><span><span class="fu">sources_donnees</span><span class="op">(</span><span class="st">"projpop"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   objet   organisme publication           millesime scenario onglets url   note </span>

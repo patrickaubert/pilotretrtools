@@ -61,7 +61,7 @@ Les adresses des fichiers sources sont centralisées dans un registre :
 ``` r
 
 sources_donnees()[c("objet", "organisme", "millesime", "scenario")]
-#> # A tibble: 7 × 4
+#> # A tibble: 8 × 4
 #>   objet       organisme millesime scenario
 #>   <chr>       <chr>         <int> <chr>   
 #> 1 projpop     Insee          2026 central 
@@ -69,8 +69,9 @@ sources_donnees()[c("objet", "organisme", "millesime", "scenario")]
 #> 3 txretr      COR            2025 central 
 #> 4 txact       Insee          2022 central 
 #> 5 txempl_obs  Insee          2026 tous    
-#> 6 txempl_proj COR            2025 central 
-#> 7 eco         COR            2025 tous
+#> 6 txempl_proj COR            2025 tous    
+#> 7 eco         COR            2025 tous    
+#> 8 popchamp    Insee          2026 tous
 ```
 
 Les fonctions de lecture prennent l’adresse du fichier en argument ;
@@ -109,3 +110,8 @@ migratoires, ajustements et taux de fécondité ; traitement du groupe
 ouvert des âges élevés) sont détaillées dans l’aide de la fonction. Les
 valeurs calculées par prolongation sont repérées par la colonne
 `prolonge`.
+
+Les écarts qui en résultent avec les valeurs publiées par l’Insee
+(grands âges, composantes non publiées, ruptures de champ géographique)
+sont détaillés dans
+[`vignette("ecarts-insee", package = "pilotretrtools")`](https://patrickaubert.github.io/pilotretrtools/articles/ecarts-insee.md).

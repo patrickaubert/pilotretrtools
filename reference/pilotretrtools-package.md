@@ -38,4 +38,4 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Patrick Aubert <adresse@a-completer.fr>
+**Maintainer**: Patrick Aubert <patrick.aubert@ipp.eu>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pilotretrtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,10 +16,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/conventions.html">Conventions et organisation du package</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -36,7 +33,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="conventions">Conventions<a class="anchor" aria-label="anchor" href="#conventions"></a></h2>
+      <h2 id="conventions-et-outils">Conventions et outils<a class="anchor" aria-label="anchor" href="#conventions-et-outils"></a></h2>
 
 
 
@@ -51,6 +48,43 @@
 
         </dt>
         <dd>Vérifier qu'une table respecte la grille commune du package</dd>
+
+        <dt>
+
+          <code><a href="interpoler_generations.html">interpoler_generations()</a></code>
+
+        </dt>
+        <dd>Interpoler entre générations</dd>
+
+        <dt>
+
+          <code><a href="lisser_par_age.html">lisser_par_age()</a></code>
+
+        </dt>
+        <dd>Lisser par âge fin des taux connus par tranche d'âge</dd>
+      </dl></div><div class="section level2">
+      <h2 id="donn-es">Données<a class="anchor" aria-label="anchor" href="#donn-es"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="projpop_central.html">projpop_central</a></code>
+
+        </dt>
+        <dd>Projections de population de l'Insee, scénario central, prolongées</dd>
+
+        <dt>
+
+          <code><a href="taux_retraites_eir.html">taux_retraites_eir</a></code>
+
+        </dt>
+        <dd>Taux de retraités rétrospectifs construits à partir des EIR</dd>
       </dl></div><div class="section level2">
       <h2 id="sources-de-donn-es">Sources de données<a class="anchor" aria-label="anchor" href="#sources-de-donn-es"></a></h2>
 
@@ -100,13 +134,6 @@
 
       <dl><dt>
 
-          <code><a href="lire_mortalite_insee.html">lire_mortalite_insee()</a></code>
-
-        </dt>
-        <dd>Lire une hypothèse de mortalité prolongée de l'Insee</dd>
-
-        <dt>
-
           <code><a href="lire_onglet_insee.html">lire_onglet_insee()</a></code>
 
         </dt>
@@ -121,10 +148,128 @@
 
         <dt>
 
+          <code><a href="lire_mortalite_insee.html">lire_mortalite_insee()</a></code>
+
+        </dt>
+        <dd>Lire une hypothèse de mortalité prolongée de l'Insee</dd>
+
+        <dt>
+
           <code><a href="prolonger_projpop.html">prolonger_projpop()</a></code>
 
         </dt>
         <dd>Prolonger les projections de population de l'Insee</dd>
+      </dl></div><div class="section level2">
+      <h2 id="retrait-s">Retraités<a class="anchor" aria-label="anchor" href="#retrait-s"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="lire_taux_retraites_cor.html">lire_taux_retraites_cor()</a></code>
+
+        </dt>
+        <dd>Lire les taux de retraités projetés par le COR</dd>
+
+        <dt>
+
+          <code><a href="construire_taux_retraites.html">construire_taux_retraites()</a></code>
+
+        </dt>
+        <dd>Construire les taux de retraités par sexe, âge et année</dd>
+
+        <dt>
+
+          <code><a href="ajouter_retraites.html">ajouter_retraites()</a></code>
+
+        </dt>
+        <dd>Ajouter les retraités à une table de population</dd>
+      </dl></div><div class="section level2">
+      <h2 id="activit-et-emploi">Activité et emploi<a class="anchor" aria-label="anchor" href="#activit-et-emploi"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="lire_taux_emploi_eec.html">lire_taux_emploi_eec()</a></code>
+
+        </dt>
+        <dd>Lire les taux d'emploi observés de l'enquête Emploi</dd>
+
+        <dt>
+
+          <code><a href="lire_taux_activite_ppa.html">lire_taux_activite_ppa()</a></code>
+
+        </dt>
+        <dd>Lire les taux d'activité des projections de population active de l'Insee</dd>
+
+        <dt>
+
+          <code><a href="lire_hypotheses_cor.html">lire_hypotheses_cor()</a></code>
+
+        </dt>
+        <dd>Lire les hypothèses d'emploi et de chômage du COR</dd>
+
+        <dt>
+
+          <code><a href="construire_taux_activite.html">construire_taux_activite()</a></code>
+
+        </dt>
+        <dd>Construire les taux d'activité et d'emploi par âge fin</dd>
+
+        <dt>
+
+          <code><a href="ajouter_actifs.html">ajouter_actifs()</a></code>
+
+        </dt>
+        <dd>Ajouter les actifs et les actifs occupés à une table de population</dd>
+      </dl></div><div class="section level2">
+      <h2 id="ruptures-de-champ-g-ographique">Ruptures de champ géographique<a class="anchor" aria-label="anchor" href="#ruptures-de-champ-g-ographique"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="lire_pop_champs_insee.html">lire_pop_champs_insee()</a></code>
+
+        </dt>
+        <dd>Lire la population par âge détaillé dans les différents champs géographiques</dd>
+
+        <dt>
+
+          <code><a href="calculer_coef_champ.html">calculer_coef_champ()</a></code>
+
+        </dt>
+        <dd>Calculer les coefficients de champ à partir des publications de l'Insee</dd>
+
+        <dt>
+
+          <code><a href="estimer_coef_champ.html">estimer_coef_champ()</a></code>
+
+        </dt>
+        <dd>Estimer les coefficients de correction des ruptures de champ géographique</dd>
+
+        <dt>
+
+          <code><a href="corriger_champ.html">corriger_champ()</a></code>
+
+        </dt>
+        <dd>Corriger les ruptures de champ géographique</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

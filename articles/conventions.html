@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pilotretrtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,12 +32,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/conventions.html">Conventions et organisation du package</a></li>
-  </ul>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -144,7 +139,7 @@
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sources_donnees.html">sources_donnees</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"objet"</span>, <span class="st">"organisme"</span>, <span class="st">"millesime"</span>, <span class="st">"scenario"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt; # A tibble: 7 × 4</span></span>
+<span><span class="co">#&gt; # A tibble: 8 × 4</span></span>
 <span><span class="co">#&gt;   objet       organisme millesime scenario</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;   </span></span>
 <span><span class="co">#&gt; 1 projpop     Insee          2026 central </span></span>
@@ -152,8 +147,9 @@
 <span><span class="co">#&gt; 3 txretr      COR            2025 central </span></span>
 <span><span class="co">#&gt; 4 txact       Insee          2022 central </span></span>
 <span><span class="co">#&gt; 5 txempl_obs  Insee          2026 tous    </span></span>
-<span><span class="co">#&gt; 6 txempl_proj COR            2025 central </span></span>
-<span><span class="co">#&gt; 7 eco         COR            2025 tous</span></span></code></pre></div>
+<span><span class="co">#&gt; 6 txempl_proj COR            2025 tous    </span></span>
+<span><span class="co">#&gt; 7 eco         COR            2025 tous    </span></span>
+<span><span class="co">#&gt; 8 popchamp    Insee          2026 tous</span></span></code></pre></div>
 </div>
 <p>Les fonctions de lecture prennent l’adresse du fichier en argument ; leur valeur par défaut est lue dans ce registre. Pour utiliser un autre scénario des projections de l’Insee, il suffit de passer l’adresse du fichier correspondant :</p>
 <div class="cell">
@@ -172,6 +168,7 @@
 </ol></section><section class="level2"><h2 id="prolongation-des-projections-de-population">Prolongation des projections de population<a class="anchor" aria-label="anchor" href="#prolongation-des-projections-de-population"></a>
 </h2>
 <p><code><a href="../reference/prolonger_projpop.html">prolonger_projpop()</a></code> prolonge un scénario de l’Insee jusqu’à l’horizon voulu par la méthode des composantes. Les hypothèses de prolongation (reconduction à chaque âge de la dernière valeur connue des quotients de mortalité, soldes migratoires, ajustements et taux de fécondité ; traitement du groupe ouvert des âges élevés) sont détaillées dans l’aide de la fonction. Les valeurs calculées par prolongation sont repérées par la colonne <code>prolonge</code>.</p>
+<p>Les écarts qui en résultent avec les valeurs publiées par l’Insee (grands âges, composantes non publiées, ruptures de champ géographique) sont détaillés dans <code><a href="../articles/ecarts-insee.html">vignette("ecarts-insee", package = "pilotretrtools")</a></code>.</p>
 </section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);

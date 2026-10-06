@@ -1,9 +1,20 @@
 # Package index
 
-## Conventions
+## Conventions et outils
 
 - [`valider_grille()`](https://patrickaubert.github.io/pilotretrtools/reference/valider_grille.md)
   : Vérifier qu'une table respecte la grille commune du package
+- [`interpoler_generations()`](https://patrickaubert.github.io/pilotretrtools/reference/interpoler_generations.md)
+  : Interpoler entre générations
+- [`lisser_par_age()`](https://patrickaubert.github.io/pilotretrtools/reference/lisser_par_age.md)
+  : Lisser par âge fin des taux connus par tranche d'âge
+
+## Données
+
+- [`projpop_central`](https://patrickaubert.github.io/pilotretrtools/reference/projpop_central.md)
+  : Projections de population de l'Insee, scénario central, prolongées
+- [`taux_retraites_eir`](https://patrickaubert.github.io/pilotretrtools/reference/taux_retraites_eir.md)
+  : Taux de retraités rétrospectifs construits à partir des EIR
 
 ## Sources de données
 
@@ -18,11 +29,48 @@
 
 ## Démographie
 
-- [`lire_mortalite_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_mortalite_insee.md)
-  : Lire une hypothèse de mortalité prolongée de l'Insee
 - [`lire_onglet_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_onglet_insee.md)
   : Lire un onglet d'un fichier de projections de l'Insee
 - [`lire_projpop_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_projpop_insee.md)
   : Lire un scénario des projections de population de l'Insee
+- [`lire_mortalite_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_mortalite_insee.md)
+  : Lire une hypothèse de mortalité prolongée de l'Insee
 - [`prolonger_projpop()`](https://patrickaubert.github.io/pilotretrtools/reference/prolonger_projpop.md)
   : Prolonger les projections de population de l'Insee
+
+## Retraités
+
+- [`lire_taux_retraites_cor()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_taux_retraites_cor.md)
+  : Lire les taux de retraités projetés par le COR
+- [`construire_taux_retraites()`](https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_retraites.md)
+  : Construire les taux de retraités par sexe, âge et année
+- [`ajouter_retraites()`](https://patrickaubert.github.io/pilotretrtools/reference/ajouter_retraites.md)
+  : Ajouter les retraités à une table de population
+
+## Activité et emploi
+
+- [`lire_taux_emploi_eec()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_taux_emploi_eec.md)
+  : Lire les taux d'emploi observés de l'enquête Emploi
+- [`lire_taux_activite_ppa()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_taux_activite_ppa.md)
+  : Lire les taux d'activité des projections de population active de
+  l'Insee
+- [`lire_hypotheses_cor()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_hypotheses_cor.md)
+  : Lire les hypothèses d'emploi et de chômage du COR
+- [`construire_taux_activite()`](https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_activite.md)
+  : Construire les taux d'activité et d'emploi par âge fin
+- [`ajouter_actifs()`](https://patrickaubert.github.io/pilotretrtools/reference/ajouter_actifs.md)
+  : Ajouter les actifs et les actifs occupés à une table de population
+
+## Ruptures de champ géographique
+
+- [`lire_pop_champs_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_pop_champs_insee.md)
+  : Lire la population par âge détaillé dans les différents champs
+  géographiques
+- [`calculer_coef_champ()`](https://patrickaubert.github.io/pilotretrtools/reference/calculer_coef_champ.md)
+  : Calculer les coefficients de champ à partir des publications de
+  l'Insee
+- [`estimer_coef_champ()`](https://patrickaubert.github.io/pilotretrtools/reference/estimer_coef_champ.md)
+  : Estimer les coefficients de correction des ruptures de champ
+  géographique
+- [`corriger_champ()`](https://patrickaubert.github.io/pilotretrtools/reference/corriger_champ.md)
+  : Corriger les ruptures de champ géographique

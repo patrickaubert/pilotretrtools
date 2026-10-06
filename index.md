@@ -36,10 +36,15 @@ sources_donnees()
 # lecture et prolongation du scénario central de l'Insee
 projpop <- lire_projpop_insee()
 projpop_prolongee <- prolonger_projpop(projpop, horizon = 2180)
+
+# séries homogènes en France entière (ruptures de champ de 1995 et 2014)
+projpop_homogene <- corriger_champ(projpop_prolongee)
 ```
 
 Les conventions communes à toutes les fonctions sont décrites dans
-[`vignette("conventions", package = "pilotretrtools")`](https://patrickaubert.github.io/pilotretrtools/articles/conventions.md).
+[`vignette("conventions", package = "pilotretrtools")`](https://patrickaubert.github.io/pilotretrtools/articles/conventions.md),
+et les écarts avec les données publiées par l’Insee dans
+[`vignette("ecarts-insee", package = "pilotretrtools")`](https://patrickaubert.github.io/pilotretrtools/articles/ecarts-insee.md).
 
 ## État d’avancement
 
@@ -47,8 +52,10 @@ Squelette, conventions, registre des sources
 
 Lecture et prolongation des projections de population de l’Insee
 
-Taux de retraités, d’activité et d’emploi ; nombre de retraités et de
-cotisants
+Taux de retraités (COR, rétropolation EIR) et nombre de retraités
+
+Taux d’activité et d’emploi lissés par âge fin ; nombre d’actifs et
+d’actifs occupés
 
 Décomposition des évolutions du nombre de retraités et du rapport
 démographique
@@ -56,6 +63,17 @@ démographique
 Modèle de cas type et règles d’équilibrage
 
 Applications Shiny
+
+## Points ouverts
+
+- Raccordement des taux d’emploi observés (enquête Emploi) et projetés
+  (COR) : saut de niveau entre la dernière année observée et la première
+  année projetée (par exemple -1,8 point à 45 ans pour les femmes entre
+  2025 et 2026).
+- Lissage par âge fin des taux d’activité et d’emploi : hypothèse
+  approximative aux âges de la retraite, où les taux présentent des
+  ruptures aux âges légaux de départ ; à remplacer à terme par des taux
+  calculés directement par âge fin.
 
 ## Sources et licences
 
