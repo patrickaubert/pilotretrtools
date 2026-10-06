@@ -1,6 +1,6 @@
 Package: pilotretrtools
 Title: Outils pour illustrer le pilotage d'un régime de retraite par annuités
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R:
     person("Patrick", "Aubert", , "patrick.aubert@ipp.eu", role = c("aut", "cre"))
 Description: Catalogue de fonctions, de tables et d'applications pour illustrer
