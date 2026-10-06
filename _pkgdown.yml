@@ -17,3 +17,15 @@ reference:
   contents:
   - starts_with("lire_")
   - starts_with("prolonger_")
+- title: Ruptures de champ géographique
+  contents:
+  - lire_pop_champs_insee
+  - calculer_coef_champ
+  - estimer_coef_champ
+  - corriger_champ
+
+articles:
+- title: Documentation
+  contents:
+  - conventions
+  - ecarts-insee

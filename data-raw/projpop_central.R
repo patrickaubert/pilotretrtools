@@ -13,20 +13,17 @@ projpop_insee <- lire_projpop_insee(
 )
 print(projpop_insee)
 
-projpop_central <- prolonger_projpop(projpop_insee, horizon = 2180)
-print(projpop_central)
+# mortalité au-delà de 2125 : quotients de 2125 reconduits (option par
+# défaut) ; prolonger_projpop(..., prolongation_mortalite = "tendance")
+# poursuit leur évolution récente
+# coefficients de correction des ruptures de champ géographique (1995, 2014),
+# calculés à partir des populations publiées dans les deux champs
+coef_champ_insee <- calculer_coef_champ(lire_pop_champs_insee())
+
+projpop_central <- prolonger_projpop(projpop_insee, horizon = 2180,
+                                     prolongation_mortalite = "constante",
+                                     coef_champ = coef_champ_insee)
+str(attr(projpop_central, "parametres"))
 
 usethis::use_data(projpop_central, overwrite = TRUE, compress = "xz")
 
-# Documentation à ajouter dans R/data.R une fois la table construite :
-#
-# #' Projections de population de l'Insee, scénario central, prolongées
-# #'
-# #' Scénario central des projections de population de l'Insee (millésime
-# #' 2026), prolongé jusqu'en 2180 par [prolonger_projpop()].
-# #'
-# #' @format Une liste de classe `projpop_prolongee` (voir
-# #'   [prolonger_projpop()]).
-# #' @source Insee, projections de population (Licence Ouverte Etalab) ;
-# #'   voir `sources_donnees("projpop")`.
-# "projpop_central"

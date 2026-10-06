@@ -36,10 +36,15 @@ sources_donnees()
 # lecture et prolongation du scénario central de l'Insee
 projpop <- lire_projpop_insee()
 projpop_prolongee <- prolonger_projpop(projpop, horizon = 2180)
+
+# séries homogènes en France entière (ruptures de champ de 1995 et 2014)
+projpop_homogene <- corriger_champ(projpop_prolongee)
 ```
 
 Les conventions communes à toutes les fonctions sont décrites dans
-`vignette("conventions", package = "pilotretrtools")`.
+`vignette("conventions", package = "pilotretrtools")`, et les écarts avec les
+données publiées par l'Insee dans
+`vignette("ecarts-insee", package = "pilotretrtools")`.
 
 ## État d'avancement
 

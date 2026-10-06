@@ -101,3 +101,7 @@ mortalité, soldes migratoires, ajustements et taux de fécondité ; traitement
 du groupe ouvert des âges élevés) sont détaillées dans l'aide de la fonction.
 Les valeurs calculées par prolongation sont repérées par la colonne
 `prolonge`.
+
+Les écarts qui en résultent avec les valeurs publiées par l'Insee (grands
+âges, composantes non publiées, ruptures de champ géographique) sont
+détaillés dans `vignette("ecarts-insee", package = "pilotretrtools")`.

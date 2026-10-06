@@ -40,7 +40,10 @@ l'hypothèse de mortalité prolongée diffusée séparément par l'Insee.
 }
 \details{
 Les quotients de mortalité sont convertis en probabilités (l'Insee les
-diffuse pour 100 000). Lorsque le fichier de mortalité prolongée est
+diffuse pour 100 000). Les valeurs des groupes ouverts (« 105+ », ou
+« 100 » les années où le détail s'arrête à 100 ans) sont remplacées par
+\code{NA} (voir \code{\link[=lire_onglet_insee]{lire_onglet_insee()}}) ; elles sont recalculées par
+\code{\link[=prolonger_projpop]{prolonger_projpop()}}. Lorsque le fichier de mortalité prolongée est
 fourni, ses quotients remplacent ceux du fichier de scénario pour les
 années qu'il couvre.
 }

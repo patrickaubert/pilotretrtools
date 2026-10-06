@@ -7,10 +7,13 @@
 prolonger_projpop(
   projpop,
   horizon = 2180,
-  age_max = NULL,
-  annee_agregation = 2023,
-  age_ouvert = 105,
+  age_max = 120,
+  prolongation_mortalite = c("constante", "tendance"),
+  duree_tendance = 20,
   rapport_masculinite = 1.05,
+  coef_champ = NULL,
+  ruptures_champ = c(1995, 2014),
+  annees_voisines = 2,
   arrondir = TRUE
 )
 }
@@ -19,66 +22,107 @@ prolonger_projpop(
 
 \item{horizon}{Dernière année de la projection prolongée.}
 
-\item{age_max}{Âge maximal (en âge atteint dans l'année). Par défaut, le
-plus grand âge présent dans les données.}
+\item{age_max}{Âge maximal (en âge atteint dans l'année).}
 
-\item{annee_agregation}{Première année pour laquelle les fichiers de
-l'Insee agrègent les âges élevés en un groupe ouvert ; \code{NA} si aucune
-agrégation.}
+\item{prolongation_mortalite}{Hypothèse de mortalité au-delà de la
+dernière année disponible : \code{"constante"} ou \code{"tendance"}.}
 
-\item{age_ouvert}{Premier âge (atteint dans l'année) du groupe ouvert.}
+\item{duree_tendance}{Nombre d'années, en remontant depuis la dernière
+année disponible, sur lequel est mesurée l'évolution des quotients
+lorsque \code{prolongation_mortalite = "tendance"}.}
 
 \item{rapport_masculinite}{Nombre de naissances de garçons pour une
 naissance de fille.}
 
-\item{arrondir}{Si \code{TRUE} (défaut), les décès et les naissances sont
-arrondis à l'unité, comme dans les projections de l'Insee.}
+\item{coef_champ}{Coefficients de correction des ruptures de champ
+géographique, tels que produits par \code{\link[=calculer_coef_champ]{calculer_coef_champ()}} à partir
+des publications de l'Insee (méthode recommandée). Si \code{NULL}, ils sont
+estimés indirectement par \code{\link[=estimer_coef_champ]{estimer_coef_champ()}} pour les années
+\code{ruptures_champ}.}
+
+\item{ruptures_champ}{Années de changement du champ géographique
+(première année dans le nouveau champ), utilisées lorsque \code{coef_champ}
+est \code{NULL}. \code{NULL} pour ne pas corriger les ruptures.}
+
+\item{annees_voisines}{Nombre d'années de part et d'autre de chaque
+rupture utilisées par la méthode indirecte pour neutraliser les
+migrations.}
+
+\item{arrondir}{Si \code{TRUE} (défaut), les décès et les naissances calculés
+sont arrondis à l'unité, comme dans les projections de l'Insee.}
 }
 \value{
-Une liste de classe \code{projpop_prolongee} contenant :
+Un tibble par \code{sexe}, \code{generation}, \code{annee}, \code{age0101} et
+\code{age3112}, avec les colonnes :
 \itemize{
-\item \code{population} : tibble par \code{sexe}, \code{generation}, \code{annee}, \code{age0101},
-\code{age3112}, avec \code{population} (au 1er janvier), \code{deces}, \code{qx},
-\code{solde_migratoire}, \code{ajustement}, \code{population3112} (au 31 décembre)
-et \code{prolonge} (\code{TRUE} pour les valeurs calculées par la fonction) ;
-\item \code{naissances} : tibble par \code{annee} des naissances utilisées pour les
-générations non diffusées (\code{calculees = TRUE} lorsqu'elles sont
-calculées à partir de la fécondité, \code{FALSE} lorsqu'elles sont reprises
-des naissances publiées) ;
-\item \code{parametres} et \code{sources} : les paramètres de prolongation et les
-sources lues.
+\item \code{population} : population au 1er janvier ;
+\item \code{naissances} : naissances de l'année, par sexe, sur les lignes d'âge 0
+(\code{NA} aux autres âges) ;
+\item \code{deces}, \code{qx}, \code{solde_migratoire}, \code{ajustement} : décès, quotient de
+mortalité, solde migratoire et ajustement de l'année ;
+\item \code{population3112} : population au 31 décembre ;
+\item \code{prolonge} : \code{TRUE} pour les effectifs calculés par la fonction ;
+\item \code{coef_champ} : coefficient multiplicatif ramenant les effectifs au
+champ géographique le plus récent (voir \code{\link[=corriger_champ]{corriger_champ()}}).
 }
+
+Les effectifs sont ceux du champ publié par l'Insee pour chaque année.
+Les paramètres de prolongation, les sources et le détail des
+coefficients de correction de champ sont stockés dans les attributs
+\code{parametres}, \code{sources} et \code{coef_champ}.
 }
 \description{
 Prolonge un scénario des projections de population de l'Insee au-delà de
-son horizon de publication, en reproduisant la méthode des composantes :
+son horizon de publication et reconstitue les effectifs aux âges élevés
+que l'Insee diffuse sous forme agrégée, par la méthode des composantes :
 chaque année, la population de chaque génération est obtenue à partir de
 celle de l'année précédente, diminuée des décès et augmentée du solde
-migratoire et de l'ajustement ; les naissances sont calculées à partir de
-la population féminine et des taux de fécondité par âge (les naissances
-publiées par l'Insee sont utilisées lorsqu'elles existent).
+migratoire et de l'ajustement. Les naissances sont celles publiées par
+l'Insee lorsqu'elles existent ; au-delà, elles sont calculées à partir de
+la population féminine et des taux de fécondité par âge.
 }
 \details{
-Le calcul est mené année par année, de manière vectorisée sur les âges.
-Seules les cellules sans population diffusée sont calculées, ainsi que les
-âges du groupe ouvert (voir \code{age_ouvert}) : les valeurs publiées par
-l'Insee sont conservées partout ailleurs.
-
-Hypothèses de prolongation :
+Les valeurs publiées par l'Insee sont conservées partout où elles existent.
+Sont calculées par la fonction :
 \itemize{
-\item quotients de mortalité, soldes migratoires, ajustements et taux de
-fécondité : à chaque âge, dernière valeur connue reconduite ;
-\item quotients de mortalité aux âges non couverts : valeur de l'âge
-inférieur ;
-\item groupe ouvert : à partir de l'année suivant \code{annee_agregation}, la
-population aux âges \code{age_ouvert} et plus est recalculée par génération ;
-le groupe ouvert agrégé de l'année \code{annee_agregation} n'est pas propagé
-(simplification : les générations correspondantes sont considérées comme
-éteintes).
+\item toutes les cellules au-delà de l'horizon des projections ;
+\item les âges couverts par un groupe ouvert dans les fichiers de l'Insee
+(« 105+ », ou « 100 » les années où le détail s'arrête à 100 ans), que
+\code{\link[=lire_projpop_insee]{lire_projpop_insee()}} a écartés.
+}
+
+Hypothèses :
+\itemize{
+\item \strong{mortalité} : au-delà de la dernière année disponible (2125 avec le
+fichier de mortalité prolongée de l'Insee), selon \code{prolongation_mortalite} :
+\itemize{
+\item \code{"constante"} (défaut) : à chaque âge, les quotients de la dernière
+année sont reconduits à l'identique ;
+\item \code{"tendance"} : à chaque âge, les quotients poursuivent leur évolution
+annuelle moyenne observée sur les \code{duree_tendance} dernières années
+disponibles (évolution géométrique, quotients plafonnés à 1) ;
+}
+
+aux âges sans quotient détaillé, le quotient du plus grand âge détaillé
+de l'année est reconduit ;
+\item \strong{solde migratoire, ajustement, fécondité} : à chaque âge, dernière
+valeur connue reconduite ; solde migratoire et ajustement nuls aux âges
+où ils ne sont pas détaillés et sur les années observées (pour les âges
+recalculés) ;
+\item \strong{première année} : les âges sans effectif détaillé sont mis à zéro
+(générations les plus anciennes, considérées comme éteintes) ;
+\item les décès calculés sont positifs et ne peuvent excéder l'effectif
+présent, et la population ne peut devenir négative : une génération
+entièrement décédée reste à zéro.
 }
 
 Pour les années observées, le solde migratoire (non diffusé par l'Insee)
-est calculé comme résidu de l'équation comptable.
+est calculé comme résidu de l'équation comptable. Les naissances
+publiées, tous sexes confondus, sont réparties par sexe selon
+\code{rapport_masculinite}.
+
+Les écarts avec les données publiées par l'Insee qui en résultent sont
+détaillés dans \code{vignette("ecarts-insee", package = "pilotretrtools")}.
 }
 \examples{
 \dontrun{
