@@ -1,4 +1,4 @@
-# pilotretrtools (development version)
+# pilotretrtools 0.2.0
 
 # pilotretrtools 0.2.0
 
