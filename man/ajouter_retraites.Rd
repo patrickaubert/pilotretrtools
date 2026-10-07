@@ -20,10 +20,10 @@ La table de population avec les colonnes \code{tx_retraites},
 Ajoute à une table de population (par exemple \code{\link[=prolonger_projpop]{prolonger_projpop()}}) le
 taux et le nombre de retraités au 31 décembre, ainsi que le taux et le
 nombre de nouveaux retraités de l'année. Le taux de nouveaux retraités est
-approché par la hausse du taux de retraités de la génération entre la fin
-de l'année précédente et la fin de l'année :
-\eqn{tx(t, a) - tx(t-1, a-1)}. Il peut être légèrement négatif lorsque le
-taux de retraités baisse d'une génération à l'autre.
+la hausse du taux de retraités de la génération entre la fin de l'année
+précédente et la fin de l'année : \eqn{tx(t, a) - tx(t-1, a-1)} (voir
+\code{\link[=construire_taux_retraites]{construire_taux_retraites()}}). Il peut être légèrement négatif lorsque
+le taux de retraités baisse d'une génération à l'autre.
 }
 \details{
 Pour des effectifs corrigés des ruptures de champ, appliquer

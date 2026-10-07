@@ -103,9 +103,14 @@ lire_taux_retraites_cor <- function(url = url_source("txretr"),
 #'   rétrospectifs ; par défaut, première année où ils couvrent tous les
 #'   âges de `age_min_retraite` à `age_max_retraite`.
 #'
-#' @return Un tibble par `sexe`, `annee` et `age3112`, avec `tx_retraites`
-#'   et `source_tx_retraites` (`"COR"`, `"EIR"`, `"convention"` ou
-#'   `"prolongation"`).
+#' Le taux de nouveaux retraités d'une génération à un âge donné est la
+#' différence entre son taux de retraités à cet âge et à l'âge précédent
+#' (année précédente). Il peut être légèrement négatif lorsque le taux de
+#' retraités baisse d'une génération à l'autre.
+#'
+#' @return Un tibble par `sexe`, `annee` et `age3112`, avec `tx_retraites`,
+#'   `tx_nouveaux_retraites` et `source_tx_retraites` (`"COR"`, `"EIR"`,
+#'   `"convention"` ou `"prolongation"`).
 #' @export
 construire_taux_retraites <- function(taux_cor,
                                       taux_retro = donnees_package("taux_retraites_eir"),
@@ -170,9 +175,27 @@ construire_taux_retraites <- function(taux_cor,
       dplyr::last(.data$tx_retraites[.data$annee <= derniere_annee_cor]),
       .data$tx_retraites)) |>
     dplyr::ungroup() |>
+    calculer_nouveaux_retraites() |>
     dplyr::select("sexe", "annee", "age3112", "tx_retraites",
-                  "source_tx_retraites") |>
+                  "tx_nouveaux_retraites", "source_tx_retraites") |>
     dplyr::arrange(.data$sexe, .data$annee, .data$age3112)
+}
+
+# Taux de nouveaux retraités : différence entre le taux de retraités de la
+# génération à l'âge a (année t) et à l'âge a - 1 (année t - 1).
+calculer_nouveaux_retraites <- function(taux) {
+  precedent <- taux |>
+    dplyr::transmute(.data$sexe, annee = .data$annee + 1,
+                     age3112 = .data$age3112 + 1,
+                     tx_precedent = .data$tx_retraites)
+  taux |>
+    dplyr::select(-dplyr::any_of("tx_nouveaux_retraites")) |>
+    dplyr::left_join(precedent, by = c("sexe", "annee", "age3112")) |>
+    dplyr::mutate(
+      tx_precedent = dplyr::if_else(.data$age3112 == 0, 0, .data$tx_precedent),
+      tx_nouveaux_retraites = .data$tx_retraites - .data$tx_precedent
+    ) |>
+    dplyr::select(-"tx_precedent")
 }
 
 #' Ajouter les retraités à une table de population
@@ -180,10 +203,10 @@ construire_taux_retraites <- function(taux_cor,
 #' Ajoute à une table de population (par exemple [prolonger_projpop()]) le
 #' taux et le nombre de retraités au 31 décembre, ainsi que le taux et le
 #' nombre de nouveaux retraités de l'année. Le taux de nouveaux retraités est
-#' approché par la hausse du taux de retraités de la génération entre la fin
-#' de l'année précédente et la fin de l'année :
-#' \eqn{tx(t, a) - tx(t-1, a-1)}. Il peut être légèrement négatif lorsque le
-#' taux de retraités baisse d'une génération à l'autre.
+#' la hausse du taux de retraités de la génération entre la fin de l'année
+#' précédente et la fin de l'année : \eqn{tx(t, a) - tx(t-1, a-1)} (voir
+#' [construire_taux_retraites()]). Il peut être légèrement négatif lorsque
+#' le taux de retraités baisse d'une génération à l'autre.
 #'
 #' Pour des effectifs corrigés des ruptures de champ, appliquer
 #' [corriger_champ()] à la population **avant** cette fonction.
@@ -199,26 +222,20 @@ ajouter_retraites <- function(population, taux_retraites) {
   attributs <- attributes(population)[c("parametres", "sources",
                                         "coef_champ", "champ_corrige")]
   attributs <- attributs[!vapply(attributs, is.null, logical(1))]
-  precedent <- taux_retraites |>
-    dplyr::transmute(.data$sexe, annee = .data$annee + 1,
-                     age3112 = .data$age3112 + 1,
-                     tx_precedent = .data$tx_retraites)
-
+  if (!"tx_nouveaux_retraites" %in% names(taux_retraites)) {
+    taux_retraites <- calculer_nouveaux_retraites(taux_retraites)
+  }
   sortie <- population |>
     dplyr::select(-dplyr::any_of(c("tx_retraites", "nb_retraites",
                                    "tx_nouveaux_retraites",
                                    "nb_nouveaux_retraites"))) |>
     dplyr::left_join(taux_retraites[c("sexe", "annee", "age3112",
-                                      "tx_retraites")],
+                                      "tx_retraites", "tx_nouveaux_retraites")],
                      by = c("sexe", "annee", "age3112")) |>
-    dplyr::left_join(precedent, by = c("sexe", "annee", "age3112")) |>
     dplyr::mutate(
-      tx_precedent = dplyr::if_else(.data$age3112 == 0, 0, .data$tx_precedent),
       nb_retraites = .data$population3112 * .data$tx_retraites,
-      tx_nouveaux_retraites = .data$tx_retraites - .data$tx_precedent,
       nb_nouveaux_retraites = .data$population3112 * .data$tx_nouveaux_retraites
-    ) |>
-    dplyr::select(-"tx_precedent")
+    )
   attributes(sortie)[names(attributs)] <- attributs
   sortie
 }

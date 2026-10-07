@@ -33,13 +33,16 @@ library(pilotretrtools)
 # sources de données utilisées
 sources_donnees()
 
-# lecture et prolongation du scénario central de l'Insee
-projpop <- lire_projpop_insee()
-projpop_prolongee <- prolonger_projpop(projpop, horizon = 2180)
+# base complète du scénario central (population, retraités, actifs),
+# disponible hors ligne
+base <- construire_base()
 
-# séries homogènes en France entière (ruptures de champ de 1995 et 2014)
-projpop_homogene <- corriger_champ(projpop_prolongee)
+# variante : hypothèse de chômage de 10 % (accès à internet nécessaire)
+base_chomage_10 <- construire_base(chomage = 10)
 ```
+
+La vignette « Prise en main » (`vignette("prise-en-main", package =
+"pilotretrtools")`) détaille l'enchaînement des fonctions et les variantes.
 
 Les conventions communes à toutes les fonctions sont décrites dans
 `vignette("conventions", package = "pilotretrtools")`, et les écarts avec les

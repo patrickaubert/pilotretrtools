@@ -32,9 +32,10 @@ test_that("construire_taux_activite raccorde les sources et lisse par \u00e2ge",
   taux <- construire_taux_activite(eec, ppa, cor, horizon = 2025)
   sources <- unique(taux[c("annee", "source_tx_emploi", "source_tx_activite")][
     taux$age3112 == 40, ])
-  expect_equal(sources$source_tx_activite[sources$annee == 2012], "PPA")
-  expect_equal(sources$source_tx_activite[sources$annee == 2015], "EEC et COR")
-  expect_equal(sources$source_tx_emploi[sources$annee == 2018], "COR")
+  expect_equal(sources$source_tx_activite[sources$annee == 2012], "PPA + lissage")
+  expect_equal(sources$source_tx_activite[sources$annee == 2015],
+               "EEC + COR + lissage")
+  expect_equal(sources$source_tx_emploi[sources$annee == 2018], "COR + lissage")
   expect_equal(sources$source_tx_emploi[sources$annee == 2023], "prolongation")
   # moyennes par tranche respect\u00e9es (poids uniformes) et taux nuls hors \u00e2ges
   t2018 <- taux[taux$sexe == "F" & taux$annee == 2018, ]
@@ -63,4 +64,16 @@ test_that("ajouter_actifs calcule actifs et actifs occup\u00e9s au 31 d\u00e9cem
   expect_equal(avec$nb_actifs, avec$population3112 * 0.6)
   expect_equal(avec$nb_actifs_occupes, avec$population3112 * 0.5)
   expect_false(is.null(attr(avec, "parametres")))
+})
+
+test_that("lire_taux_activite_publies rassemble les taux sans lissage", {
+  fichier_cor <- creer_fichier_hypotheses_cor()
+  publies <- lire_taux_activite_publies(eec, ppa, chomage = 7,
+                                        url_cor = fichier_cor)
+  expect_setequal(unique(publies$source), c("EEC", "PPA", "COR"))
+  expect_equal(unique(publies$hypothese_chomage[publies$source == "COR"]), 7)
+  expect_true(all(is.na(publies$tx_activite[publies$source == "EEC"])))
+  expect_equal(publies$tx_emploi[publies$source == "EEC" & publies$sexe == "F" &
+                                   publies$annee == 2010 &
+                                   publies$age_debut == 25], 0.8)
 })

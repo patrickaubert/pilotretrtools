@@ -31,12 +31,17 @@ est nul et au-delà desquels il vaut 1.}
 
 \item{annee_debut_retro}{Première année retenue pour les taux
 rétrospectifs ; par défaut, première année où ils couvrent tous les
-âges de \code{age_min_retraite} à \code{age_max_retraite}.}
+âges de \code{age_min_retraite} à \code{age_max_retraite}.
+
+Le taux de nouveaux retraités d'une génération à un âge donné est la
+différence entre son taux de retraités à cet âge et à l'âge précédent
+(année précédente). Il peut être légèrement négatif lorsque le taux de
+retraités baisse d'une génération à l'autre.}
 }
 \value{
-Un tibble par \code{sexe}, \code{annee} et \code{age3112}, avec \code{tx_retraites}
-et \code{source_tx_retraites} (\code{"COR"}, \code{"EIR"}, \code{"convention"} ou
-\code{"prolongation"}).
+Un tibble par \code{sexe}, \code{annee} et \code{age3112}, avec \code{tx_retraites},
+\code{tx_nouveaux_retraites} et \code{source_tx_retraites} (\code{"COR"}, \code{"EIR"},
+\code{"convention"} ou \code{"prolongation"}).
 }
 \description{
 Assemble les taux de retraités au 31 décembre sur une grille complète de

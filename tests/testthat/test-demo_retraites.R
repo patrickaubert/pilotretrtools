@@ -41,6 +41,10 @@ test_that("construire_taux_retraites raccorde EIR, COR et conventions", {
   expect_equal(f(1980, 75)$tx_retraites, 1)
   expect_equal(f(2010, 60)$source_tx_retraites, "prolongation")
   expect_equal(f(2010, 60)$tx_retraites, f(2005, 60)$tx_retraites)
+  # taux de nouveaux retrait\u00e9s : m\u00eame g\u00e9n\u00e9ration, \u00e2ge pr\u00e9c\u00e9dent
+  expect_equal(f(2003, 61)$tx_nouveaux_retraites,
+               f(2003, 61)$tx_retraites - f(2002, 60)$tx_retraites)
+  expect_equal(f(2003, 50)$tx_nouveaux_retraites, f(2003, 50)$tx_retraites)
 })
 
 test_that("ajouter_retraites calcule stocks et nouveaux retrait\u00e9s", {

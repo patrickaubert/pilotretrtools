@@ -6,37 +6,32 @@
 \title{Projections de population de l'Insee, scénario central, prolongées}
 \format{
 Un tibble par \code{sexe}, \code{generation}, \code{annee}, \code{age0101} et
-\code{age3112}, avec les colonnes :
-\itemize{
-\item \code{population} : population au 1er janvier ;
-\item \code{naissances} : naissances de l'année, par sexe, sur les lignes d'âge 0
-(\code{NA} aux autres âges) ;
-\item \code{deces}, \code{qx}, \code{solde_migratoire}, \code{ajustement} : décès, quotient de
-mortalité, solde migratoire et ajustement de l'année ;
-\item \code{population3112} : population au 31 décembre ;
-\item \code{prolonge} : \code{TRUE} pour les effectifs calculés par la fonction ;
-\item \code{champ} : champ géographique des données de l'année (voir
-\code{\link[=champ_insee]{champ_insee()}}) ;
-\item \code{coef_champ} : coefficient multiplicatif ramenant les effectifs au
-champ géographique le plus récent (voir \code{\link[=corriger_champ]{corriger_champ()}}).
-}
+\code{age3112} (de 0 à 120 ans), avec \code{population} (au 1er janvier),
+\code{naissances}, \code{deces}, \code{qx}, \code{solde_migratoire}, \code{ajustement},
+\code{population3112} (au 31 décembre), \code{prolonge}, \code{champ} et \code{coef_champ} ;
+voir la section « Value » de \code{\link[=prolonger_projpop]{prolonger_projpop()}}. Les paramètres de
+construction, les sources et les coefficients de champ sont dans les
+attributs \code{parametres}, \code{sources} et \code{coef_champ}.
 }
 \source{
-Insee, projections de population 2026 (Licence Ouverte Etalab) ;
-voir \code{sources_donnees(c("projpop", "projmort"))}.
+Insee, projections de population 2026, estimations de population
+(tableau POP3) ; Licence Ouverte Etalab. Voir
+\code{sources_donnees(c("projpop", "projmort", "popchamp"))}.
 }
 \usage{
 projpop_central
 }
 \description{
-Scénario central des projections de population de l'Insee (millésime
-2026), avec l'hypothèse centrale de mortalité, prolongé jusqu'en 2180 par
-\code{\link[=prolonger_projpop]{prolonger_projpop()}} (quotients de mortalité de 2125 reconduits). Les
-effectifs sont dans le champ publié pour chaque année ; voir
-\code{\link[=corriger_champ]{corriger_champ()}} pour des séries homogènes en France entière, et
-\code{vignette("ecarts-insee")} pour les écarts avec les données publiées.
-Les années 1901 à 1961 (hors années manquantes de la première guerre mondiale)
-sont ajoutées par \code{\link[=ajouter_serie_historique]{ajouter_serie_historique()}}, à partir des publications
-de l'Insee sur la démographie.
+Population par sexe, génération, année et âge du scénario central des
+projections de population de l'Insee (millésime 2026, hypothèse centrale
+de mortalité), prolongé jusqu'en 2180 par \code{\link[=prolonger_projpop]{prolonger_projpop()}} (quotients
+de mortalité de 2125 reconduits) et précédé des séries historiques de
+1901 à 1961 (\code{\link[=ajouter_serie_historique]{ajouter_serie_historique()}}).
+}
+\details{
+Les effectifs sont ceux du champ publié pour chaque année (colonne
+\code{champ}) : \code{\link[=corriger_champ]{corriger_champ()}} les ramène au champ France entière. Les
+écarts avec les données publiées sont détaillés dans
+\code{vignette("ecarts-insee")}. Construite par \code{data-raw/projpop_central.R}.
 }
 \keyword{datasets}

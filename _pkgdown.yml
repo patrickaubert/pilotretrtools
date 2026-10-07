@@ -9,9 +9,15 @@ reference:
   - valider_grille
   - interpoler_generations
   - lisser_par_age
+- title: Construction de la base
+  contents:
+  - construire_base
 - title: Données
   contents:
   - projpop_central
+  - taux_retraites_central
+  - taux_activite_central
+  - taux_activite_publies
   - taux_retraites_eir
 - title: Sources de données
   contents:
@@ -38,6 +44,7 @@ reference:
   - lire_taux_activite_ppa
   - lire_hypotheses_cor
   - construire_taux_activite
+  - lire_taux_activite_publies
   - ajouter_actifs
 - title: Décomposition
   contents:
@@ -54,5 +61,6 @@ reference:
 articles:
 - title: Documentation
   contents:
+  - prise-en-main
   - conventions
   - ecarts-insee

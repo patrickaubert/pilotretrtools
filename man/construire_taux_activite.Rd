@@ -36,7 +36,12 @@ occupés sont confondus.}
 \value{
 Un tibble par \code{sexe}, \code{annee} et \code{age3112}, avec \code{tx_activite},
 \code{tx_emploi}, \code{tx_chomage}, et la source des taux d'emploi et
-d'activité (\code{source_tx_emploi}, \code{source_tx_activite}). L'hypothèse de
+d'activité (\code{source_tx_emploi}, \code{source_tx_activite} : par exemple
+\code{"EEC + lissage"}, la mention du lissage rappelant que les taux par âge
+fin ne sont pas ceux publiés ; \code{"convention"} hors des âges lissés ;
+\code{"prolongation"} au-delà de la dernière année du COR). Les taux publiés,
+par tranche d'âge, sont disponibles avec \code{\link[=lire_taux_activite_publies]{lire_taux_activite_publies()}}
+et dans la table \link{taux_activite_publies}. L'hypothèse de
 chômage du COR est stockée dans l'attribut \code{hypothese_chomage}.
 }
 \description{

@@ -301,6 +301,12 @@ taux de chômage est déduit des deux. Plusieurs conventions s'ajoutent :
   les deux lissages indépendants donnent des taux de chômage sans
   signification.
 
+Les sources des taux lissés portent la mention « + lissage » (par exemple
+`"EEC + lissage"`), pour rappeler que les taux par âge fin ne sont pas ceux
+publiés. Les taux publiés, par tranche d'âge et sans lissage, sont
+rassemblés dans la table `taux_activite_publies` (Insee et COR, pour les
+trois hypothèses de chômage).
+
 Cette approche suppose des profils réguliers selon l'âge. Elle est
 approximative aux âges de départ à la retraite, où les taux d'activité et
 d'emploi présentent des ruptures aux âges légaux d'ouverture des droits et

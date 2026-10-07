@@ -218,7 +218,12 @@ lire_hypotheses_cor <- function(url = url_source("txempl_proj"), chomage = 7) {
 #'
 #' @return Un tibble par `sexe`, `annee` et `age3112`, avec `tx_activite`,
 #'   `tx_emploi`, `tx_chomage`, et la source des taux d'emploi et
-#'   d'activité (`source_tx_emploi`, `source_tx_activite`). L'hypothèse de
+#'   d'activité (`source_tx_emploi`, `source_tx_activite` : par exemple
+#'   `"EEC + lissage"`, la mention du lissage rappelant que les taux par âge
+#'   fin ne sont pas ceux publiés ; `"convention"` hors des âges lissés ;
+#'   `"prolongation"` au-delà de la dernière année du COR). Les taux publiés,
+#'   par tranche d'âge, sont disponibles avec [lire_taux_activite_publies()]
+#'   et dans la table [taux_activite_publies]. L'hypothèse de
 #'   chômage du COR est stockée dans l'attribut `hypothese_chomage`.
 #' @export
 construire_taux_activite <- function(eec, ppa, cor, population = NULL,
@@ -258,9 +263,9 @@ construire_taux_activite <- function(eec, ppa, cor, population = NULL,
     dplyr::arrange(.data$sexe, .data$annee, .data$age_debut)
 
   emploi <- dplyr::bind_rows(
-    eec |> dplyr::mutate(source = "EEC"),
+    eec |> dplyr::mutate(source = "EEC + lissage"),
     cor |> dplyr::filter(.data$annee > derniere_eec) |>
-      dplyr::mutate(source = "COR")
+      dplyr::mutate(source = "COR + lissage")
   ) |>
     dplyr::select("sexe", "annee", "age_debut", valeur = "tx_emploi", "source")
 
@@ -287,17 +292,17 @@ construire_taux_activite <- function(eec, ppa, cor, population = NULL,
   activite <- dplyr::bind_rows(
     ppa |> dplyr::filter(.data$annee < premiere_cor) |>
       dplyr::transmute(.data$sexe, .data$annee, .data$age_debut,
-                       valeur = .data$tx_activite, source = "PPA"),
+                       valeur = .data$tx_activite, source = "PPA + lissage"),
     emploi |> dplyr::filter(.data$annee >= premiere_cor,
                             .data$annee <= derniere_eec) |>
       dplyr::inner_join(chomage_cor, by = c("sexe", "annee", "age_debut"),
                         suffix = c("", "_chomage")) |>
       dplyr::transmute(.data$sexe, .data$annee, .data$age_debut,
                        valeur = .data$valeur / (1 - .data$valeur_chomage),
-                       source = "EEC et COR"),
+                       source = "EEC + COR + lissage"),
     cor |> dplyr::filter(.data$annee > derniere_eec) |>
       dplyr::transmute(.data$sexe, .data$annee, .data$age_debut,
-                       valeur = .data$tx_activite, source = "COR")
+                       valeur = .data$tx_activite, source = "COR + lissage")
   )
   poids <- function(sexe, annee) {
     uniformes <- rep(1, age_max - age_min + 1)
@@ -395,4 +400,46 @@ ajouter_actifs <- function(population, taux_activite) {
                   nb_actifs_occupes = .data$population3112 * .data$tx_emploi)
   attributes(sortie)[names(attributs)] <- attributs
   sortie
+}
+
+#' Rassembler les taux d'activité, d'emploi et de chômage publiés
+#'
+#' Rassemble, dans une même table et sans lissage, les taux par sexe et
+#' tranche d'âge tels que publiés par l'Insee (enquête Emploi, projections de
+#' population active) et par le COR (hypothèses d'emploi et de chômage, pour
+#' chaque hypothèse de chômage de long terme). C'est à partir de ces taux que
+#' [construire_taux_activite()] construit les taux par âge fin.
+#'
+#' @param eec Taux d'emploi observés ([lire_taux_emploi_eec()]).
+#' @param ppa Taux d'activité de la PPA ([lire_taux_activite_ppa()]).
+#' @param chomage Hypothèses de chômage du COR à lire, en %.
+#' @param url_cor Adresse (ou chemin local) du fichier d'hypothèses du COR.
+#'
+#' @return Un tibble avec `source` (`"EEC"`, `"PPA"`, `"COR"`),
+#'   `hypothese_chomage` (pour le COR), `sexe`, `annee`, `age_debut`,
+#'   `age_fin` (`NA` pour la tranche ouverte), `tx_emploi`, `tx_activite` et
+#'   `tx_chomage` (manquants lorsque la source ne les publie pas).
+#' @export
+#' @examples
+#' \dontrun{
+#' lire_taux_activite_publies()
+#' }
+lire_taux_activite_publies <- function(eec = lire_taux_emploi_eec(),
+                                       ppa = lire_taux_activite_ppa(),
+                                       chomage = c(5, 7, 10),
+                                       url_cor = url_source("txempl_proj")) {
+  cor <- dplyr::bind_rows(lapply(chomage, function(x) {
+    suppressMessages(lire_hypotheses_cor(url_cor, chomage = x)) |>
+      dplyr::mutate(hypothese_chomage = x)
+  }))
+  dplyr::bind_rows(
+    dplyr::mutate(eec, source = "EEC"),
+    dplyr::mutate(ppa, source = "PPA"),
+    dplyr::mutate(cor, source = "COR")
+  ) |>
+    dplyr::select("source", dplyr::any_of("hypothese_chomage"), "sexe",
+                  "annee", "age_debut", "age_fin", "tx_emploi",
+                  "tx_activite", "tx_chomage") |>
+    dplyr::arrange(.data$source, .data$hypothese_chomage, .data$sexe,
+                   .data$annee, .data$age_debut)
 }
