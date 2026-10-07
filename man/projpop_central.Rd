@@ -5,8 +5,21 @@
 \alias{projpop_central}
 \title{Projections de population de l'Insee, scénario central, prolongées}
 \format{
-Un tibble par sexe, génération, année et âge ; voir la section
-« Value » de \code{\link[=prolonger_projpop]{prolonger_projpop()}} pour la description des colonnes.
+Un tibble par \code{sexe}, \code{generation}, \code{annee}, \code{age0101} et
+\code{age3112}, avec les colonnes :
+\itemize{
+\item \code{population} : population au 1er janvier ;
+\item \code{naissances} : naissances de l'année, par sexe, sur les lignes d'âge 0
+(\code{NA} aux autres âges) ;
+\item \code{deces}, \code{qx}, \code{solde_migratoire}, \code{ajustement} : décès, quotient de
+mortalité, solde migratoire et ajustement de l'année ;
+\item \code{population3112} : population au 31 décembre ;
+\item \code{prolonge} : \code{TRUE} pour les effectifs calculés par la fonction ;
+\item \code{champ} : champ géographique des données de l'année (voir
+\code{\link[=champ_insee]{champ_insee()}}) ;
+\item \code{coef_champ} : coefficient multiplicatif ramenant les effectifs au
+champ géographique le plus récent (voir \code{\link[=corriger_champ]{corriger_champ()}}).
+}
 }
 \source{
 Insee, projections de population 2026 (Licence Ouverte Etalab) ;
@@ -22,5 +35,8 @@ Scénario central des projections de population de l'Insee (millésime
 effectifs sont dans le champ publié pour chaque année ; voir
 \code{\link[=corriger_champ]{corriger_champ()}} pour des séries homogènes en France entière, et
 \code{vignette("ecarts-insee")} pour les écarts avec les données publiées.
+Les années 1901 à 1961 (hors années manquantes de la première guerre mondiale)
+sont ajoutées par \code{\link[=ajouter_serie_historique]{ajouter_serie_historique()}}, à partir des publications
+de l'Insee sur la démographie.
 }
 \keyword{datasets}

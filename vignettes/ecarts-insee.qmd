@@ -108,15 +108,41 @@ des générations nées après 2025 environ, qui atteignent les âges de forte
 mortalité après 2125. Ces hypothèses sont conventionnelles : elles servent à
 illustrer des mécanismes, non à projeter la population du XXII^e^ siècle.
 
+## Les séries historiques (1901-1961)
+
+Les projections de population de l'Insee commencent en 1962. Pour disposer
+des séries les plus longues possibles, `ajouter_serie_historique()` ajoute
+les populations au 1er janvier par sexe et âge détaillé de la France
+métropolitaine de 1901 à 1961, tirées du tableau POP3 de l'Insee. La table
+embarquée `projpop_central` les inclut. Ces années appellent plusieurs
+précautions :
+
+- seules les populations au 1er janvier sont disponibles : la population au
+  31 décembre est celle de la même génération au 1er janvier suivant ; les
+  décès, les quotients de mortalité, les soldes migratoires et les
+  naissances sont manquants ;
+- les âges couverts par le groupe ouvert (« 99 ou plus » ou « 100 ou plus »
+  selon les années) sont manquants ;
+- les années 1915 à 1919 ne sont pas couvertes ;
+- le champ géographique varie : l'Alsace-Moselle est exclue de 1901 à 1914
+  (frontières de 1871) et de 1939 à 1945, et la Corse aussi en 1944. Ces
+  ruptures ne sont pas corrigées ; la colonne `champ` les signale
+  (`champ_insee()`). Les années de guerre présentent en outre des
+  variations importantes de la population (prisonniers de guerre,
+  déplacements de population).
+
+Pour la plupart des usages, il est donc préférable de ne retenir que les
+années 1946 et suivantes.
+
 ## Les ruptures de champ géographique
 
-Le champ des séries historiques de l'Insee change deux fois :
+Depuis 1946, le champ des séries de l'Insee change deux fois :
 
-| Période      | Champ                          |
-|--------------|--------------------------------|
-| 1962-1994    | France métropolitaine          |
-| 1995-2013    | France hors Mayotte            |
-| depuis 2014  | France entière                 |
+| Période      | Champ                          | Colonne `champ`         |
+|--------------|--------------------------------|-------------------------|
+| 1946-1994    | France métropolitaine          | `metropole`             |
+| 1995-2013    | France hors Mayotte            | `france_hors_mayotte`   |
+| depuis 2014  | France entière                 | `france`                |
 
 Ces ruptures correspondent à la réalité des données, mais elles créent des
 sauts dans les séries longues (environ +1,6 million d'habitants en 1995,

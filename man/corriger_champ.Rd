@@ -22,7 +22,10 @@ population au 31 décembre est prise égale à la population corrigée de la
 même génération au 1er janvier suivant, et le solde migratoire est
 recalculé comme résidu, ce qui supprime les sauts liés au changement de
 champ. Les quotients de mortalité et les taux ne
-sont pas modifiés.
+sont pas modifiés. La colonne \code{champ}, si elle existe, est mise à jour :
+\code{"france"}, ou \code{"france_hors_alsace_moselle"} (et
+\code{"france_hors_alsace_moselle_corse"} en 1944) pour les années historiques
+où l'Alsace-Moselle est exclue, cette rupture n'étant pas corrigée.
 }
 \examples{
 \dontrun{

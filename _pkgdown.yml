@@ -25,6 +25,8 @@ reference:
   - lire_projpop_insee
   - lire_mortalite_insee
   - prolonger_projpop
+  - ajouter_serie_historique
+  - champ_insee
 - title: Retraités
   contents:
   - lire_taux_retraites_cor

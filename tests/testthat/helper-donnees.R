@@ -75,8 +75,24 @@ creer_fichiers_insee <- function(repertoire = tempfile("insee")) {
 # année, France métropolitaine puis champ « France » de l'époque, par âge
 # révolu au 1er janvier (groupe ouvert « 10 ou plus »).
 creer_fichier_pop_champs <- function(fichier = tempfile(fileext = ".xlsx"),
-                                     coef_drom = 1.03, coef_mayotte = 1.01) {
+                                     coef_drom = 1.03, coef_mayotte = 1.01,
+                                     annees_historiques = integer()) {
   classeur <- openxlsx::createWorkbook()
+  # onglets historiques : France métropolitaine seule, groupe ouvert « 8 ou plus »
+  for (annee in as.character(annees_historiques)) {
+    openxlsx::addWorksheet(classeur, annee)
+    openxlsx::writeData(classeur, annee, paste("POP3 - Ann\u00e9e", annee),
+                        startRow = 1)
+    openxlsx::writeData(classeur, annee,
+                        data.frame(a = NA, b = NA, c = "France m\u00e9tropolitaine"),
+                        startRow = 4, colNames = FALSE)
+    ages <- c(as.character(0:7), "8 ou plus")
+    tableau <- data.frame(n = as.numeric(annee) - 1 - 0:8, age = ages,
+                          e = 200, h = 100, f = c(rep(100, 8), 250))
+    names(tableau) <- c("Ann\u00e9e de naissance", "\u00c2ge en ann\u00e9es r\u00e9volues",
+                        "Ensemble", "Hommes", "Femmes")
+    openxlsx::writeData(classeur, annee, tableau, startRow = 5)
+  }
   ages <- c(as.character(0:9), "10 ou plus")
   champs <- list("1995" = c("France hors Mayotte", coef_drom),
                  "2013" = c("France hors Mayotte", coef_drom),

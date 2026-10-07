@@ -144,7 +144,10 @@ appliquer_coef_champ <- function(population, coefficients) {
 #' même génération au 1er janvier suivant, et le solde migratoire est
 #' recalculé comme résidu, ce qui supprime les sauts liés au changement de
 #' champ. Les quotients de mortalité et les taux ne
-#' sont pas modifiés.
+#' sont pas modifiés. La colonne `champ`, si elle existe, est mise à jour :
+#' `"france"`, ou `"france_hors_alsace_moselle"` (et
+#' `"france_hors_alsace_moselle_corse"` en 1944) pour les années historiques
+#' où l'Alsace-Moselle est exclue, cette rupture n'étant pas corrigée.
 #'
 #' @param population Table produite par [prolonger_projpop()].
 #'
@@ -190,6 +193,10 @@ corriger_champ <- function(population) {
       coef_champ = 1
     ) |>
     dplyr::select(-"population_suivante")
+  if ("champ" %in% names(population)) {
+    population$champ <- sub("^metropole", "france", population$champ)
+    population$champ[population$champ == "france_hors_mayotte"] <- "france"
+  }
 
   attributes(population)[names(attributs)] <- attributs
   attr(population, "champ_corrige") <- TRUE

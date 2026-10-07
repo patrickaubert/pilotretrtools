@@ -78,6 +78,8 @@
 #'     mortalité, solde migratoire et ajustement de l'année ;
 #'   * `population3112` : population au 31 décembre ;
 #'   * `prolonge` : `TRUE` pour les effectifs calculés par la fonction ;
+#'   * `champ` : champ géographique des données de l'année (voir
+#'     [champ_insee()]) ;
 #'   * `coef_champ` : coefficient multiplicatif ramenant les effectifs au
 #'     champ géographique le plus récent (voir [corriger_champ()]).
 #'
@@ -278,6 +280,8 @@ prolonger_projpop <- function(projpop,
     dplyr::left_join(table_naissances, by = c("sexe", "annee", "age3112")) |>
     dplyr::relocate("naissances", .after = "population") |>
     completer_grille()
+
+  population$champ <- champ_insee(population$annee)
 
   # coefficients de correction des ruptures de champ géographique
   coefficients <- NULL

@@ -62,6 +62,8 @@ Un tibble par \code{sexe}, \code{generation}, \code{annee}, \code{age0101} et
 mortalité, solde migratoire et ajustement de l'année ;
 \item \code{population3112} : population au 31 décembre ;
 \item \code{prolonge} : \code{TRUE} pour les effectifs calculés par la fonction ;
+\item \code{champ} : champ géographique des données de l'année (voir
+\code{\link[=champ_insee]{champ_insee()}}) ;
 \item \code{coef_champ} : coefficient multiplicatif ramenant les effectifs au
 champ géographique le plus récent (voir \code{\link[=corriger_champ]{corriger_champ()}}).
 }
