@@ -2,6 +2,23 @@
 
 # pilotretrtools 0.3.0
 
+* `construire_base()` : construction de la base complète (population,
+  retraités, actifs, actifs occupés) en une ligne, hors ligne pour le scénario
+  central ; variantes de scénario Insee, de mortalité et de chômage.
+* Nouvelles tables embarquées : `taux_retraites_central` (avec les taux de
+  nouveaux retraités), `taux_activite_central` (taux lissés par âge fin) et
+  `taux_activite_publies` (taux publiés par l'Insee et le COR, non lissés,
+  voir `lire_taux_activite_publies()`).
+* Série historique 1901-1961 (`ajouter_serie_historique()`), incluse dans
+  `projpop_central`, et colonne `champ` (`champ_insee()`).
+* Décomposition des évolutions du nombre de retraités, des actifs occupés et
+  du rapport démographique (`decomposer_evolutions()`), avec une mortalité de
+  référence au choix (`mortalite_annee()`, `mortalite_generation()`,
+  `mortalite_annee_age()`).
+* Sources des taux lissés signalées par la mention « + lissage ».
+* Documentation des tables regroupée dans `R/data.R` ; nouvelle vignette
+  « Prise en main ».
+
 # pilotretrtools 0.2.0
 
 * Taux de retraités : lecture des projections du COR (`lire_taux_retraites_cor()`),
