@@ -97,7 +97,12 @@ occupés sont confondus.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Un tibble par <code>sexe</code>, <code>annee</code> et <code>age3112</code>, avec <code>tx_activite</code>,
 <code>tx_emploi</code>, <code>tx_chomage</code>, et la source des taux d'emploi et
-d'activité (<code>source_tx_emploi</code>, <code>source_tx_activite</code>). L'hypothèse de
+d'activité (<code>source_tx_emploi</code>, <code>source_tx_activite</code> : par exemple
+<code>"EEC + lissage"</code>, la mention du lissage rappelant que les taux par âge
+fin ne sont pas ceux publiés ; <code>"convention"</code> hors des âges lissés ;
+<code>"prolongation"</code> au-delà de la dernière année du COR). Les taux publiés,
+par tranche d'âge, sont disponibles avec <code><a href="lire_taux_activite_publies.html">lire_taux_activite_publies()</a></code>
+et dans la table <a href="taux_activite_publies.html">taux_activite_publies</a>. L'hypothèse de
 chômage du COR est stockée dans l'attribut <code>hypothese_chomage</code>.</p>
     </div>
     <div class="section level2">

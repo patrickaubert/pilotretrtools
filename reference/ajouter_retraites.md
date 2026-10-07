@@ -4,10 +4,12 @@ Ajoute à une table de population (par exemple
 [`prolonger_projpop()`](https://patrickaubert.github.io/pilotretrtools/reference/prolonger_projpop.md))
 le taux et le nombre de retraités au 31 décembre, ainsi que le taux et
 le nombre de nouveaux retraités de l'année. Le taux de nouveaux
-retraités est approché par la hausse du taux de retraités de la
-génération entre la fin de l'année précédente et la fin de l'année :
-\\tx(t, a) - tx(t-1, a-1)\\. Il peut être légèrement négatif lorsque le
-taux de retraités baisse d'une génération à l'autre.
+retraités est la hausse du taux de retraités de la génération entre la
+fin de l'année précédente et la fin de l'année : \\tx(t, a) - tx(t-1,
+a-1)\\ (voir
+[`construire_taux_retraites()`](https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_retraites.md)).
+Il peut être légèrement négatif lorsque le taux de retraités baisse
+d'une génération à l'autre.
 
 ## Usage
 

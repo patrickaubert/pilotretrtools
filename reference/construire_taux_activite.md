@@ -60,8 +60,16 @@ construire_taux_activite(
 
 Un tibble par `sexe`, `annee` et `age3112`, avec `tx_activite`,
 `tx_emploi`, `tx_chomage`, et la source des taux d'emploi et d'activité
-(`source_tx_emploi`, `source_tx_activite`). L'hypothèse de chômage du
-COR est stockée dans l'attribut `hypothese_chomage`.
+(`source_tx_emploi`, `source_tx_activite` : par exemple
+`"EEC + lissage"`, la mention du lissage rappelant que les taux par âge
+fin ne sont pas ceux publiés ; `"convention"` hors des âges lissés ;
+`"prolongation"` au-delà de la dernière année du COR). Les taux publiés,
+par tranche d'âge, sont disponibles avec
+[`lire_taux_activite_publies()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_taux_activite_publies.md)
+et dans la table
+[taux_activite_publies](https://patrickaubert.github.io/pilotretrtools/reference/taux_activite_publies.md).
+L'hypothèse de chômage du COR est stockée dans l'attribut
+`hypothese_chomage`.
 
 ## Details
 

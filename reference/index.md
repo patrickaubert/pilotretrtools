@@ -9,10 +9,22 @@
 - [`lisser_par_age()`](https://patrickaubert.github.io/pilotretrtools/reference/lisser_par_age.md)
   : Lisser par âge fin des taux connus par tranche d'âge
 
+## Construction de la base
+
+- [`construire_base()`](https://patrickaubert.github.io/pilotretrtools/reference/construire_base.md)
+  : Construire la base complète : population, retraités, actifs
+
 ## Données
 
 - [`projpop_central`](https://patrickaubert.github.io/pilotretrtools/reference/projpop_central.md)
   : Projections de population de l'Insee, scénario central, prolongées
+- [`taux_retraites_central`](https://patrickaubert.github.io/pilotretrtools/reference/taux_retraites_central.md)
+  : Taux de retraités du scénario central
+- [`taux_activite_central`](https://patrickaubert.github.io/pilotretrtools/reference/taux_activite_central.md)
+  : Taux d'activité, d'emploi et de chômage par âge fin, scénario
+  central
+- [`taux_activite_publies`](https://patrickaubert.github.io/pilotretrtools/reference/taux_activite_publies.md)
+  : Taux d'activité, d'emploi et de chômage publiés, par tranche d'âge
 - [`taux_retraites_eir`](https://patrickaubert.github.io/pilotretrtools/reference/taux_retraites_eir.md)
   : Taux de retraités rétrospectifs construits à partir des EIR
 
@@ -62,6 +74,8 @@
   : Lire les hypothèses d'emploi et de chômage du COR
 - [`construire_taux_activite()`](https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_activite.md)
   : Construire les taux d'activité et d'emploi par âge fin
+- [`lire_taux_activite_publies()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_taux_activite_publies.md)
+  : Rassembler les taux d'activité, d'emploi et de chômage publiés
 - [`ajouter_actifs()`](https://patrickaubert.github.io/pilotretrtools/reference/ajouter_actifs.md)
   : Ajouter les actifs et les actifs occupés à une table de population
 

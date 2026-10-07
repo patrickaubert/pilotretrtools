@@ -85,14 +85,18 @@ est nul et au-delà desquels il vaut 1.</p></dd>
 <dt id="arg-annee-debut-retro">annee_debut_retro<a class="anchor" aria-label="anchor" href="#arg-annee-debut-retro"></a></dt>
 <dd><p>Première année retenue pour les taux
 rétrospectifs ; par défaut, première année où ils couvrent tous les
-âges de <code>age_min_retraite</code> à <code>age_max_retraite</code>.</p></dd>
+âges de <code>age_min_retraite</code> à <code>age_max_retraite</code>.</p>
+<p>Le taux de nouveaux retraités d'une génération à un âge donné est la
+différence entre son taux de retraités à cet âge et à l'âge précédent
+(année précédente). Il peut être légèrement négatif lorsque le taux de
+retraités baisse d'une génération à l'autre.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Un tibble par <code>sexe</code>, <code>annee</code> et <code>age3112</code>, avec <code>tx_retraites</code>
-et <code>source_tx_retraites</code> (<code>"COR"</code>, <code>"EIR"</code>, <code>"convention"</code> ou
-<code>"prolongation"</code>).</p>
+    <p>Un tibble par <code>sexe</code>, <code>annee</code> et <code>age3112</code>, avec <code>tx_retraites</code>,
+<code>tx_nouveaux_retraites</code> et <code>source_tx_retraites</code> (<code>"COR"</code>, <code>"EIR"</code>,
+<code>"convention"</code> ou <code>"prolongation"</code>).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

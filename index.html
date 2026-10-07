@@ -75,12 +75,13 @@
 <span><span class="co"># sources de données utilisées</span></span>
 <span><span class="fu"><a href="reference/sources_donnees.html">sources_donnees</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># lecture et prolongation du scénario central de l'Insee</span></span>
-<span><span class="va">projpop</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lire_projpop_insee.html">lire_projpop_insee</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">projpop_prolongee</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prolonger_projpop.html">prolonger_projpop</a></span><span class="op">(</span><span class="va">projpop</span>, horizon <span class="op">=</span> <span class="fl">2180</span><span class="op">)</span></span>
+<span><span class="co"># base complète du scénario central (population, retraités, actifs),</span></span>
+<span><span class="co"># disponible hors ligne</span></span>
+<span><span class="va">base</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/construire_base.html">construire_base</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># séries homogènes en France entière (ruptures de champ de 1995 et 2014)</span></span>
-<span><span class="va">projpop_homogene</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/corriger_champ.html">corriger_champ</a></span><span class="op">(</span><span class="va">projpop_prolongee</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># variante : hypothèse de chômage de 10 % (accès à internet nécessaire)</span></span>
+<span><span class="va">base_chomage_10</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/construire_base.html">construire_base</a></span><span class="op">(</span>chomage <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<p>La vignette « Prise en main » (<code><a href="articles/prise-en-main.html">vignette("prise-en-main", package = "pilotretrtools")</a></code>) détaille l’enchaînement des fonctions et les variantes.</p>
 <p>Les conventions communes à toutes les fonctions sont décrites dans <code><a href="articles/conventions.html">vignette("conventions", package = "pilotretrtools")</a></code>, et les écarts avec les données publiées par l’Insee dans <code><a href="articles/ecarts-insee.html">vignette("ecarts-insee", package = "pilotretrtools")</a></code>.</p>
 </div>
 <div class="section level2">
