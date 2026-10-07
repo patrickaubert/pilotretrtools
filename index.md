@@ -57,8 +57,8 @@ Taux de retraités (COR, rétropolation EIR) et nombre de retraités
 Taux d’activité et d’emploi lissés par âge fin ; nombre d’actifs et
 d’actifs occupés
 
-Décomposition des évolutions du nombre de retraités et du rapport
-démographique
+Décomposition des évolutions du nombre de retraités, des actifs occupés
+et du rapport démographique
 
 Modèle de cas type et règles d’équilibrage
 

@@ -13,6 +13,7 @@
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_activite.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_retraites.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/corriger_champ.html</loc></url>
+<url><loc>https://patrickaubert.github.io/pilotretrtools/reference/decomposer_evolutions.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/estimer_coef_champ.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/index.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/interpoler_generations.html</loc></url>
@@ -26,8 +27,10 @@
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/lire_taux_retraites_cor.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/lisser_par_age.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/pilotretrtools-package.html</loc></url>
+<url><loc>https://patrickaubert.github.io/pilotretrtools/reference/projeter_mortalite_reference.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/projpop_central.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/prolonger_projpop.html</loc></url>
+<url><loc>https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/sources_donnees.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/taux_retraites_eir.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/telecharger_source.html</loc></url>

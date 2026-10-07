@@ -61,6 +61,18 @@
 - [`ajouter_actifs()`](https://patrickaubert.github.io/pilotretrtools/reference/ajouter_actifs.md)
   : Ajouter les actifs et les actifs occupés à une table de population
 
+## Décomposition
+
+- [`mortalite_annee()`](https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.md)
+  [`mortalite_generation()`](https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.md)
+  [`mortalite_annee_age()`](https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.md)
+  : Définir une mortalité de référence
+- [`projeter_mortalite_reference()`](https://patrickaubert.github.io/pilotretrtools/reference/projeter_mortalite_reference.md)
+  : Projeter la population avec une mortalité de référence
+- [`decomposer_evolutions()`](https://patrickaubert.github.io/pilotretrtools/reference/decomposer_evolutions.md)
+  : Décomposer les évolutions du nombre de retraités et du rapport
+  démographique
+
 ## Ruptures de champ géographique
 
 - [`lire_pop_champs_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_pop_champs_insee.md)
