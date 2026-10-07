@@ -2,8 +2,6 @@
 
 # pilotretrtools 0.2.0
 
-# pilotretrtools 0.2.0
-
 * Taux de retraités : lecture des projections du COR (`lire_taux_retraites_cor()`),
   table rétrospective construite à partir des EIR (`taux_retraites_eir`),
   raccordement (`construire_taux_retraites()`) et nombres de retraités

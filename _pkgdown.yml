@@ -37,6 +37,11 @@ reference:
   - lire_hypotheses_cor
   - construire_taux_activite
   - ajouter_actifs
+- title: Décomposition
+  contents:
+  - reference_mortalite
+  - projeter_mortalite_reference
+  - decomposer_evolutions
 - title: Ruptures de champ géographique
   contents:
   - lire_pop_champs_insee
