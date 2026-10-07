@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pilotretrtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,8 +34,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.0" id="pilotretrtools-030">pilotretrtools 0.3.0<a class="anchor" aria-label="anchor" href="#pilotretrtools-030"></a></h2>
+<h2 class="pkg-version" data-toc-text="development version" id="pilotretrtools-development-version">pilotretrtools (development version)<a class="anchor" aria-label="anchor" href="#pilotretrtools-development-version"></a></h2>
 </div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="pilotretrtools-030">pilotretrtools 0.3.0<a class="anchor" aria-label="anchor" href="#pilotretrtools-030"></a></h2>
+<ul><li>
+<code><a href="../reference/construire_base.html">construire_base()</a></code> : construction de la base complète (population, retraités, actifs, actifs occupés) en une ligne, hors ligne pour le scénario central ; variantes de scénario Insee, de mortalité et de chômage.</li>
+<li>Nouvelles tables embarquées : <code>taux_retraites_central</code> (avec les taux de nouveaux retraités), <code>taux_activite_central</code> (taux lissés par âge fin) et <code>taux_activite_publies</code> (taux publiés par l’Insee et le COR, non lissés, voir <code><a href="../reference/lire_taux_activite_publies.html">lire_taux_activite_publies()</a></code>).</li>
+<li>Série historique 1901-1961 (<code><a href="../reference/ajouter_serie_historique.html">ajouter_serie_historique()</a></code>), incluse dans <code>projpop_central</code>, et colonne <code>champ</code> (<code><a href="../reference/champ_insee.html">champ_insee()</a></code>).</li>
+<li>Décomposition des évolutions du nombre de retraités, des actifs occupés et du rapport démographique (<code><a href="../reference/decomposer_evolutions.html">decomposer_evolutions()</a></code>), avec une mortalité de référence au choix (<code><a href="../reference/reference_mortalite.html">mortalite_annee()</a></code>, <code><a href="../reference/reference_mortalite.html">mortalite_generation()</a></code>, <code><a href="../reference/reference_mortalite.html">mortalite_annee_age()</a></code>).</li>
+<li>Sources des taux lissés signalées par la mention « + lissage ».</li>
+<li>Documentation des tables regroupée dans <code>R/data.R</code> ; nouvelle vignette « Prise en main ».</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="pilotretrtools-020">pilotretrtools 0.2.0<a class="anchor" aria-label="anchor" href="#pilotretrtools-020"></a></h2>
 <ul><li>Taux de retraités : lecture des projections du COR (<code><a href="../reference/lire_taux_retraites_cor.html">lire_taux_retraites_cor()</a></code>), table rétrospective construite à partir des EIR (<code>taux_retraites_eir</code>), raccordement (<code><a href="../reference/construire_taux_retraites.html">construire_taux_retraites()</a></code>) et nombres de retraités (<code><a href="../reference/ajouter_retraites.html">ajouter_retraites()</a></code>).</li>

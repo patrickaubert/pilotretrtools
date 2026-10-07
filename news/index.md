@@ -1,6 +1,32 @@
 # Changelog
 
+## pilotretrtools (development version)
+
 ## pilotretrtools 0.3.0
+
+- [`construire_base()`](https://patrickaubert.github.io/pilotretrtools/reference/construire_base.md)
+  : construction de la base complète (population, retraités, actifs,
+  actifs occupés) en une ligne, hors ligne pour le scénario central ;
+  variantes de scénario Insee, de mortalité et de chômage.
+- Nouvelles tables embarquées : `taux_retraites_central` (avec les taux
+  de nouveaux retraités), `taux_activite_central` (taux lissés par âge
+  fin) et `taux_activite_publies` (taux publiés par l’Insee et le COR,
+  non lissés, voir
+  [`lire_taux_activite_publies()`](https://patrickaubert.github.io/pilotretrtools/reference/lire_taux_activite_publies.md)).
+- Série historique 1901-1961
+  ([`ajouter_serie_historique()`](https://patrickaubert.github.io/pilotretrtools/reference/ajouter_serie_historique.md)),
+  incluse dans `projpop_central`, et colonne `champ`
+  ([`champ_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/champ_insee.md)).
+- Décomposition des évolutions du nombre de retraités, des actifs
+  occupés et du rapport démographique
+  ([`decomposer_evolutions()`](https://patrickaubert.github.io/pilotretrtools/reference/decomposer_evolutions.md)),
+  avec une mortalité de référence au choix
+  ([`mortalite_annee()`](https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.md),
+  [`mortalite_generation()`](https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.md),
+  [`mortalite_annee_age()`](https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.md)).
+- Sources des taux lissés signalées par la mention « + lissage ».
+- Documentation des tables regroupée dans `R/data.R` ; nouvelle vignette
+  « Prise en main ».
 
 ## pilotretrtools 0.2.0
 
