@@ -99,6 +99,10 @@ avec les colonnes :
 
 - `prolonge` : `TRUE` pour les effectifs calculés par la fonction ;
 
+- `champ` : champ géographique des données de l'année (voir
+  [`champ_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/champ_insee.md))
+  ;
+
 - `coef_champ` : coefficient multiplicatif ramenant les effectifs au
   champ géographique le plus récent (voir
   [`corriger_champ()`](https://patrickaubert.github.io/pilotretrtools/reference/corriger_champ.md)).

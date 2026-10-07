@@ -4,12 +4,18 @@
 prolonger_projpop() (quotients de mortalité de 2125 reconduits). Les
 effectifs sont dans le champ publié pour chaque année ; voir
 corriger_champ() pour des séries homogènes en France entière, et
-vignette(&quot;ecarts-insee&quot;) pour les écarts avec les données publiées."><meta property="og:description" content="Scénario central des projections de population de l'Insee (millésime
+vignette(&quot;ecarts-insee&quot;) pour les écarts avec les données publiées.
+Les années 1901 à 1961 (hors années manquantes de la première guerre mondiale)
+sont ajoutées par ajouter_serie_historique(), à partir des publications
+de l'Insee sur la démographie."><meta property="og:description" content="Scénario central des projections de population de l'Insee (millésime
 2026), avec l'hypothèse centrale de mortalité, prolongé jusqu'en 2180 par
 prolonger_projpop() (quotients de mortalité de 2125 reconduits). Les
 effectifs sont dans le champ publié pour chaque année ; voir
 corriger_champ() pour des séries homogènes en France entière, et
-vignette(&quot;ecarts-insee&quot;) pour les écarts avec les données publiées."></head><body>
+vignette(&quot;ecarts-insee&quot;) pour les écarts avec les données publiées.
+Les années 1901 à 1961 (hors années manquantes de la première guerre mondiale)
+sont ajoutées par ajouter_serie_historique(), à partir des publications
+de l'Insee sur la démographie."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -50,7 +56,10 @@ vignette(&quot;ecarts-insee&quot;) pour les écarts avec les données publiées.
 <code><a href="prolonger_projpop.html">prolonger_projpop()</a></code> (quotients de mortalité de 2125 reconduits). Les
 effectifs sont dans le champ publié pour chaque année ; voir
 <code><a href="corriger_champ.html">corriger_champ()</a></code> pour des séries homogènes en France entière, et
-<code><a href="../articles/ecarts-insee.html">vignette("ecarts-insee")</a></code> pour les écarts avec les données publiées.</p>
+<code><a href="../articles/ecarts-insee.html">vignette("ecarts-insee")</a></code> pour les écarts avec les données publiées.
+Les années 1901 à 1961 (hors années manquantes de la première guerre mondiale)
+sont ajoutées par <code><a href="ajouter_serie_historique.html">ajouter_serie_historique()</a></code>, à partir des publications
+de l'Insee sur la démographie.</p>
     </div>
 
     <div class="section level2">
@@ -60,9 +69,19 @@ effectifs sont dans le champ publié pour chaque année ; voir
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>Un tibble par sexe, génération, année et âge ; voir la section
-« Value » de <code><a href="prolonger_projpop.html">prolonger_projpop()</a></code> pour la description des colonnes.</p>
-    </div>
+    <p>Un tibble par <code>sexe</code>, <code>generation</code>, <code>annee</code>, <code>age0101</code> et
+<code>age3112</code>, avec les colonnes :</p><ul><li><p><code>population</code> : population au 1er janvier ;</p></li>
+<li><p><code>naissances</code> : naissances de l'année, par sexe, sur les lignes d'âge 0
+(<code>NA</code> aux autres âges) ;</p></li>
+<li><p><code>deces</code>, <code>qx</code>, <code>solde_migratoire</code>, <code>ajustement</code> : décès, quotient de
+mortalité, solde migratoire et ajustement de l'année ;</p></li>
+<li><p><code>population3112</code> : population au 31 décembre ;</p></li>
+<li><p><code>prolonge</code> : <code>TRUE</code> pour les effectifs calculés par la fonction ;</p></li>
+<li><p><code>champ</code> : champ géographique des données de l'année (voir
+<code><a href="champ_insee.html">champ_insee()</a></code>) ;</p></li>
+<li><p><code>coef_champ</code> : coefficient multiplicatif ramenant les effectifs au
+champ géographique le plus récent (voir <code><a href="corriger_champ.html">corriger_champ()</a></code>).</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
     <p>Insee, projections de population 2026 (Licence Ouverte Etalab) ;

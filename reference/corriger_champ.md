@@ -9,7 +9,11 @@ l'ajustement. Pour les années antérieures à la dernière rupture, la
 population au 31 décembre est prise égale à la population corrigée de la
 même génération au 1er janvier suivant, et le solde migratoire est
 recalculé comme résidu, ce qui supprime les sauts liés au changement de
-champ. Les quotients de mortalité et les taux ne sont pas modifiés.
+champ. Les quotients de mortalité et les taux ne sont pas modifiés. La
+colonne `champ`, si elle existe, est mise à jour : `"france"`, ou
+`"france_hors_alsace_moselle"` (et `"france_hors_alsace_moselle_corse"`
+en 1944) pour les années historiques où l'Alsace-Moselle est exclue,
+cette rupture n'étant pas corrigée.
 
 ## Usage
 

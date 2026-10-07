@@ -99,26 +99,46 @@
 <strong>mortalité</strong> : les quotients de 2125, dernière année du fichier de mortalité de l’Insee, sont soit reconduits à l’identique (option par défaut, <code>prolongation_mortalite = "constante"</code>), soit prolongés selon leur évolution annuelle moyenne des vingt dernières années (<code>prolongation_mortalite = "tendance"</code>).</li>
 </ul>
 <p>L’option par défaut arrête net les gains d’espérance de vie après 2125. Cela importe peu pour les générations actuelles, mais pèse sur les indicateurs des générations nées après 2025 environ, qui atteignent les âges de forte mortalité après 2125. Ces hypothèses sont conventionnelles : elles servent à illustrer des mécanismes, non à projeter la population du XXII<sup>e</sup> siècle.</p>
+</section><section class="level2"><h2 id="les-séries-historiques-1901-1961">Les séries historiques (1901-1961)<a class="anchor" aria-label="anchor" href="#les-s%C3%A9ries-historiques-1901-1961"></a>
+</h2>
+<p>Les projections de population de l’Insee commencent en 1962. Pour disposer des séries les plus longues possibles, <code><a href="../reference/ajouter_serie_historique.html">ajouter_serie_historique()</a></code> ajoute les populations au 1er janvier par sexe et âge détaillé de la France métropolitaine de 1901 à 1961, tirées du tableau POP3 de l’Insee. La table embarquée <code>projpop_central</code> les inclut. Ces années appellent plusieurs précautions :</p>
+<ul>
+<li>seules les populations au 1er janvier sont disponibles : la population au 31 décembre est celle de la même génération au 1er janvier suivant ; les décès, les quotients de mortalité, les soldes migratoires et les naissances sont manquants ;</li>
+<li>les âges couverts par le groupe ouvert (« 99 ou plus » ou « 100 ou plus » selon les années) sont manquants ;</li>
+<li>les années 1915 à 1919 ne sont pas couvertes ;</li>
+<li>le champ géographique varie : l’Alsace-Moselle est exclue de 1901 à 1914 (frontières de 1871) et de 1939 à 1945, et la Corse aussi en 1944. Ces ruptures ne sont pas corrigées ; la colonne <code>champ</code> les signale (<code><a href="../reference/champ_insee.html">champ_insee()</a></code>). Les années de guerre présentent en outre des variations importantes de la population (prisonniers de guerre, déplacements de population).</li>
+</ul>
+<p>Pour la plupart des usages, il est donc préférable de ne retenir que les années 1946 et suivantes.</p>
 </section><section class="level2"><h2 id="les-ruptures-de-champ-géographique">Les ruptures de champ géographique<a class="anchor" aria-label="anchor" href="#les-ruptures-de-champ-g%C3%A9ographique"></a>
 </h2>
-<p>Le champ des séries historiques de l’Insee change deux fois :</p>
+<p>Depuis 1946, le champ des séries de l’Insee change deux fois :</p>
 <table class="table caption-top">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 45%">
+<col style="width: 35%">
+</colgroup>
 <thead><tr class="header">
 <th>Période</th>
 <th>Champ</th>
+<th>Colonne <code>champ</code>
+</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1962-1994</td>
+<td>1946-1994</td>
 <td>France métropolitaine</td>
+<td><code>metropole</code></td>
 </tr>
 <tr class="even">
 <td>1995-2013</td>
 <td>France hors Mayotte</td>
+<td><code>france_hors_mayotte</code></td>
 </tr>
 <tr class="odd">
 <td>depuis 2014</td>
 <td>France entière</td>
+<td><code>france</code></td>
 </tr>
 </tbody>
 </table>

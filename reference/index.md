@@ -37,6 +37,10 @@
   : Lire une hypothèse de mortalité prolongée de l'Insee
 - [`prolonger_projpop()`](https://patrickaubert.github.io/pilotretrtools/reference/prolonger_projpop.md)
   : Prolonger les projections de population de l'Insee
+- [`ajouter_serie_historique()`](https://patrickaubert.github.io/pilotretrtools/reference/ajouter_serie_historique.md)
+  : Ajouter les séries historiques de population
+- [`champ_insee()`](https://patrickaubert.github.io/pilotretrtools/reference/champ_insee.md)
+  : Champ géographique des séries de l'Insee
 
 ## Retraités
 
