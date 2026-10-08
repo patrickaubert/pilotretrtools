@@ -2,6 +2,7 @@
 <url><loc>https://patrickaubert.github.io/pilotretrtools/404.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/LICENSE-text.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/articles/conventions.html</loc></url>
+<url><loc>https://patrickaubert.github.io/pilotretrtools/articles/decomposition.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/articles/ecarts-insee.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/articles/index.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/articles/prise-en-main.html</loc></url>
@@ -18,6 +19,7 @@
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/construire_taux_retraites.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/corriger_champ.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/decomposer_evolutions.html</loc></url>
+<url><loc>https://patrickaubert.github.io/pilotretrtools/reference/donnees_graph_decomposition.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/estimer_coef_champ.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/index.html</loc></url>
 <url><loc>https://patrickaubert.github.io/pilotretrtools/reference/interpoler_generations.html</loc></url>

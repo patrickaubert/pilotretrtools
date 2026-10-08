@@ -249,12 +249,7 @@ decomposition |>
 
 ``` r
 
-decomposition |>
-  filter(annee >= 1980, annee <= 2070) |>
-  select(annee, Taux = d_nb_retraites_taux,
-         `Mortalité` = d_nb_retraites_mortalite,
-         `Taille des générations` = d_nb_retraites_taille) |>
-  tidyr::pivot_longer(-annee, names_to = "effet", values_to = "valeur") |>
+donnees_graph_decomposition(decomposition, "retraites", annees = 1980:2070) |>
   ggplot(aes(annee, valeur / 1000, fill = effet)) +
   geom_col() +
   labs(x = NULL, y = "Milliers de retraités", fill = NULL,
@@ -272,12 +267,18 @@ ou
 [`mortalite_annee_age()`](https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.md)
 (voir
 [`?reference_mortalite`](https://patrickaubert.github.io/pilotretrtools/reference/reference_mortalite.md)).
+Le principe du calcul, les formules et les décompositions des actifs
+occupés et du rapport démographique sont présentés dans
+[`vignette("decomposition")`](https://patrickaubert.github.io/pilotretrtools/articles/decomposition.md).
 
 ## Pour aller plus loin
 
 - [`vignette("conventions")`](https://patrickaubert.github.io/pilotretrtools/articles/conventions.md)
   : conventions de la grille génération × âge × année et organisation du
   package ;
+- [`vignette("decomposition")`](https://patrickaubert.github.io/pilotretrtools/articles/decomposition.md)
+  : principe et illustrations de la décomposition des évolutions
+  démographiques ;
 - [`vignette("ecarts-insee")`](https://patrickaubert.github.io/pilotretrtools/articles/ecarts-insee.md)
   : écarts avec les données publiées par l’Insee et le COR, et
   hypothèses de construction.

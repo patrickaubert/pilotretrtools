@@ -54,5 +54,11 @@ les décès observés et ceux que donne la formule à partir des quotients.
 
 La projection de référence part, pour chaque génération, de la première
 cellule où la mortalité de référence s'applique (âge `age_debut`, ou
-première année postérieure à l'année de référence, ou première année des
-données), avec la population effective au 1er janvier.
+première année postérieure à l'année de référence, ou première année où
+les quotients de mortalité sont connus), avec la population effective au
+1er janvier. Les années de la série historique, sans quotients de
+mortalité, ne sont donc pas couvertes : le gain y est nul. Lorsque
+l'année des quotients de référence sort de la période couverte par les
+quotients (par exemple l'année des 60 ans des générations nées avant
+1902), elle est ramenée à la première ou à la dernière année disponible,
+avec un message.

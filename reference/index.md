@@ -90,6 +90,8 @@
 - [`decomposer_evolutions()`](https://patrickaubert.github.io/pilotretrtools/reference/decomposer_evolutions.md)
   : Décomposer les évolutions du nombre de retraités et du rapport
   démographique
+- [`donnees_graph_decomposition()`](https://patrickaubert.github.io/pilotretrtools/reference/donnees_graph_decomposition.md)
+  : Données d'un graphique de décomposition
 
 ## Ruptures de champ géographique
 
