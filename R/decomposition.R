@@ -77,8 +77,14 @@ print.reference_mortalite <- function(x, ...) {
 #'
 #' La projection de référence part, pour chaque génération, de la première
 #' cellule où la mortalité de référence s'applique (âge `age_debut`, ou
-#' première année postérieure à l'année de référence, ou première année des
-#' données), avec la population effective au 1er janvier.
+#' première année postérieure à l'année de référence, ou première année où
+#' les quotients de mortalité sont connus), avec la population effective au
+#' 1er janvier. Les années de la série historique, sans quotients de
+#' mortalité, ne sont donc pas couvertes : le gain y est nul. Lorsque
+#' l'année des quotients de référence sort de la période couverte par les
+#' quotients (par exemple l'année des 60 ans des générations nées avant
+#' 1902), elle est ramenée à la première ou à la dernière année disponible,
+#' avec un message.
 #'
 #' @param population Table de population (par exemple [prolonger_projpop()]),
 #'   de préférence corrigée des ruptures de champ ([corriger_champ()]).
@@ -109,16 +115,26 @@ projeter_mortalite_reference <- function(population,
                      annee = rep(reference$valeur, nrow(population)),
                      generation = reference$valeur + population$age3112,
                      annee_age = population$generation + reference$valeur)
+  # année des quotients de référence ramenée dans la période où les
+  # quotients de mortalité existent
+  annees_qx <- range(population$annee[!is.na(population$qx)])
+  hors_periode <- population$age3112 >= age_debut &
+    (annee_qx < annees_qx[1] | annee_qx > annees_qx[2])
+  if (any(hors_periode)) {
+    message("Mortalit\u00e9 de r\u00e9f\u00e9rence : ann\u00e9es hors de la p\u00e9riode ",
+            "couverte par les quotients (", annees_qx[1], "-", annees_qx[2],
+            ") ramen\u00e9es \u00e0 la premi\u00e8re ou \u00e0 la derni\u00e8re ann\u00e9e ",
+            "disponible.")
+    annee_qx <- pmin(pmax(annee_qx, annees_qx[1]), annees_qx[2])
+  }
   quotients <- population[c("sexe", "annee", "age3112", "qx")]
   q_ref <- quotients$qx[match(
     paste(population$sexe, annee_qx, population$age3112),
     paste(quotients$sexe, quotients$annee, quotients$age3112))]
-  if (anyNA(q_ref[population$age3112 >= age_debut])) {
-    stop("Quotients de mortalit\u00e9 de r\u00e9f\u00e9rence indisponibles pour ",
-         "certaines cellules : la r\u00e9f\u00e9rence sort de la p\u00e9riode couverte.",
-         call. = FALSE)
-  }
-  applique <- population$age3112 >= age_debut &
+  # la mortalité de référence ne s'applique qu'aux cellules où les deux
+  # quotients (effectif et de référence) sont connus
+  applique <- population$age3112 >= age_debut & !is.na(population$qx) &
+    !is.na(q_ref) &
     (reference$type != "annee" | population$annee > reference$valeur)
 
   ordre <- order(population$sexe, population$generation, population$age3112)

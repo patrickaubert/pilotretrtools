@@ -231,12 +231,7 @@ decomposition |>
 #| label: graphique-decomposition
 #| fig-width: 7
 #| fig-height: 4
-decomposition |>
-  filter(annee >= 1980, annee <= 2070) |>
-  select(annee, Taux = d_nb_retraites_taux,
-         `Mortalité` = d_nb_retraites_mortalite,
-         `Taille des générations` = d_nb_retraites_taille) |>
-  tidyr::pivot_longer(-annee, names_to = "effet", values_to = "valeur") |>
+donnees_graph_decomposition(decomposition, "retraites", annees = 1980:2070) |>
   ggplot(aes(annee, valeur / 1000, fill = effet)) +
   geom_col() +
   labs(x = NULL, y = "Milliers de retraités", fill = NULL,
@@ -247,11 +242,15 @@ decomposition |>
 
 La référence de mortalité se change avec `mortalite_annee()`,
 `mortalite_generation()` ou `mortalite_annee_age()` (voir
-`?reference_mortalite`).
+`?reference_mortalite`). Le principe du calcul, les formules et les
+décompositions des actifs occupés et du rapport démographique sont
+présentés dans `vignette("decomposition")`.
 
 ## Pour aller plus loin
 
 - `vignette("conventions")` : conventions de la grille génération × âge ×
   année et organisation du package ;
+- `vignette("decomposition")` : principe et illustrations de la
+  décomposition des évolutions démographiques ;
 - `vignette("ecarts-insee")` : écarts avec les données publiées par l'Insee
   et le COR, et hypothèses de construction.

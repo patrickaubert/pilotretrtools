@@ -74,3 +74,32 @@ test_that("decomposer_evolutions avertit sans correction de champ", {
   expect_error(decomposer_evolutions(pop[c("sexe", "annee", "age3112")]),
                "absentes")
 })
+
+test_that("donnees_graph_decomposition met en forme les effets", {
+  dec <- decomposer_evolutions(pop, mortalite_annee(2003),
+                               age_debut_mortalite = 8, age_seuil_emploi = 5)
+  g <- donnees_graph_decomposition(dec, "actifs_occupes")
+  expect_equal(levels(g$effet)[1:2], c("Taux d'emploi avant 5 ans",
+                                       "Taux d'emploi apr\u00e8s 5 ans"))
+  somme <- tapply(g$valeur, g$annee, sum)
+  variation <- tapply(g$variation, g$annee, unique)
+  expect_equal(as.vector(somme), as.vector(variation))
+  expect_equal(nlevels(donnees_graph_decomposition(dec, "rapport_demo")$effet), 5)
+  expect_true(all(donnees_graph_decomposition(dec, annees = 2010)$annee == 2010))
+})
+
+test_that("les r\u00e9f\u00e9rences hors p\u00e9riode et les ann\u00e9es sans quotients sont g\u00e9r\u00e9es", {
+  # ann\u00e9es 2000 et 2001 sans quotients, comme la s\u00e9rie historique
+  sans_qx <- pop
+  sans_qx$qx[sans_qx$annee <= 2001] <- NA
+  expect_message(
+    avec <- projeter_mortalite_reference(sans_qx, mortalite_annee_age(8),
+                                         age_debut = 8),
+    "ramen")
+  expect_true(all(avec$gain_mortalite[avec$annee <= 2001] == 0))
+  expect_false(anyNA(avec$gain_mortalite))
+  expect_true(any(avec$gain_mortalite != 0))
+  expect_no_error(projeter_mortalite_reference(pop, mortalite_annee(1950),
+                                               age_debut = 8) |>
+                    suppressMessages())
+})

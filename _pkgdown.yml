@@ -51,6 +51,7 @@ reference:
   - reference_mortalite
   - projeter_mortalite_reference
   - decomposer_evolutions
+  - donnees_graph_decomposition
 - title: Ruptures de champ géographique
   contents:
   - lire_pop_champs_insee
@@ -62,5 +63,6 @@ articles:
 - title: Documentation
   contents:
   - prise-en-main
+  - decomposition
   - conventions
   - ecarts-insee
